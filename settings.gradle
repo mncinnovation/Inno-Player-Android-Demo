@@ -1,0 +1,2 @@
+rootProject.name='Lido Player Test'
+include ':app'
