@@ -8,7 +8,11 @@ import androidx.multidex.MultiDex
 class ClientApplication : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        MultiDex.install(this)
+        try {
+            MultiDex.install(this)
+        } catch (e : RuntimeException){
+            e.printStackTrace()
+        }
 
     }
     override fun onCreate() {

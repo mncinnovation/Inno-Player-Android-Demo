@@ -21,54 +21,54 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_video_player)
 
-        lidoPlayerView.addOnErrorListener(object : LidoPlayerView.ErrorEventListener {
-            override fun onErrorListener(error: LidoPlaybackException?) {
-                Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
-            }
-        })
+//        lidoPlayerView.addOnErrorListener(object : LidoPlayerView.ErrorEventListener {
+//            override fun onErrorListener(error: LidoPlaybackException?) {
+//                Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
+//            }
+//        })
 
-        lidoPlayerView.addOnLoadingChangeListener(object : LidoPlayerView.LoadingEventListener {
-            override fun onLoadingChange(isLoading: Boolean) {
-                Log.e(TAG, "isPlayerLoading: $isLoading")
-            }
-        })
-
-        lidoPlayerView.addOnDisplayClickListener(object : LidoPlayerView.DisplayClickListener {
-            override fun onDisplayClick() {
-                Log.e(TAG, "isDisplayClicked")
-            }
-        })
-
-        lidoPlayerView.addOnPlayerStateEndListener(object : LidoPlayerView.PlayerStateEndListener {
-            override fun onPlayerStateEnd(playWhenReady: Boolean) {
-                Log.e(TAG, "playerStateEnd: $playWhenReady")
-            }
-        })
-
-        lidoPlayerView.addOnTracksChangeListener(object : LidoPlayerView.TracksChangeListener {
-            override fun onTracksChange() {
-                //add logic to do when tracks media has changed
-                //example for check player has next media to play or not by calling playerHasNext() function
-                Log.e(TAG, "trackHasChanged")
-            }
-        })
-
-        lidoPlayerView.addTimebarScrubListener(object : LidoPlayerView.TimebarScrubListener {
-            override fun onScrubMoveStart(position: Long) {
-                //when scrub progress of player start to move
-                Log.e(TAG, "Scrub default controller start at $position")
-            }
-
-            override fun onScrubMove(position: Long) {
-                //when scrub progress of player moving
-                Log.e(TAG, "Scrub default controller move at $position")
-            }
-
-            override fun onScrubMoveStop(position: Long) {
-                //when scrub progress of player has stop move
-                Log.e(TAG, "Scrub default controller stop move at $position")
-            }
-        })
+//        lidoPlayerView.addOnLoadingChangeListener(object : LidoPlayerView.LoadingEventListener {
+//            override fun onLoadingChange(isLoading: Boolean) {
+//                Log.e(TAG, "isPlayerLoading: $isLoading")
+//            }
+//        })
+//
+//        lidoPlayerView.addOnDisplayClickListener(object : LidoPlayerView.DisplayClickListener {
+//            override fun onDisplayClick() {
+//                Log.e(TAG, "isDisplayClicked")
+//            }
+//        })
+//
+//        lidoPlayerView.addOnPlayerStateEndListener(object : LidoPlayerView.PlayerStateEndListener {
+//            override fun onPlayerStateEnd(playWhenReady: Boolean) {
+//                Log.e(TAG, "playerStateEnd: $playWhenReady")
+//            }
+//        })
+//
+//        lidoPlayerView.addOnTracksChangeListener(object : LidoPlayerView.TracksChangeListener {
+//            override fun onTracksChange() {
+//                //add logic to do when tracks media has changed
+//                //example for check player has next media to play or not by calling playerHasNext() function
+//                Log.e(TAG, "trackHasChanged")
+//            }
+//        })
+//
+//        lidoPlayerView.addTimebarScrubListener(object : LidoPlayerView.TimebarScrubListener {
+//            override fun onScrubMoveStart(position: Long) {
+//                //when scrub progress of player start to move
+//                Log.e(TAG, "Scrub default controller start at $position")
+//            }
+//
+//            override fun onScrubMove(position: Long) {
+//                //when scrub progress of player moving
+//                Log.e(TAG, "Scrub default controller move at $position")
+//            }
+//
+//            override fun onScrubMoveStop(position: Long) {
+//                //when scrub progress of player has stop move
+//                Log.e(TAG, "Scrub default controller stop move at $position")
+//            }
+//        })
 
 //        btnOpenPlayer?.setOnClickListener {
 //            val intent = Intent(this, LidoPlayerActivity::class.java)
