@@ -9,8 +9,8 @@ import id.innovationcenter.lidoplayer.LidoPlayerSDK
 import id.innovationcenter.lidoplayer.repository.model.ads.AdBreak
 import id.innovationcenter.lidoplayer.repository.model.ads.AdSource
 import id.innovationcenter.lidoplayer.repository.model.ads.AdType
-import id.innovationcenter.lidoplayer.repository.model.apiresponse.Feature
 import id.innovationcenter.lidoplayer.repository.model.drm.DrmLicense
+import id.innovationcenter.lidoplayer.repository.model.feature.Feature
 import id.innovationcenter.lidoplayer.repository.model.playlist.MimeTypeSubtitle
 import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
 import id.innovationcenter.lidoplayer.repository.model.subtitle.SubtitleInfo
@@ -108,16 +108,13 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
         liveStream1.add(
             PlaylistItem(
                 title = "HLS",
-                file = "https://akamai-axtest.akamaized.net/routes/lapd-v1-acceptance/www_c4/Manifest.m3u8",
-                isLive = true
+                file = "https://akamai-axtest.akamaized.net/routes/lapd-v1-acceptance/www_c4/Manifest.m3u8"
             )
         )
         liveStream2.add(
             PlaylistItem(
                 title = "DASH",
-                file = "https://akamai-axtest.akamaized.net/routes/lapd-v1-acceptance/www_c4/Manifest.mpd",
-                isLive = true
-            )
+                file = "https://akamai-axtest.akamaized.net/routes/lapd-v1-acceptance/www_c4/Manifest.mpd")
         )
         liveStreamList.addAll(listOf(liveStream1, liveStream2))
         listChild[listHeader[1]] = liveStreamList
@@ -134,42 +131,35 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
                 title = "MP3",
                 file = "https://lidoplayer.innovationcenter.id/cdn/audios/ES_Cocoona.mp3",
                 image = "https://img.inews.id/media/822/files/inews_new/2019/08/09/noah5.jpg",
-                description = "SoundHelix Sound",
-                isAudioOnly = true
-            )
+                description = "SoundHelix Sound")
         )
 
         audio2.add(
             PlaylistItem(
                 title = "AAC",
                 file = "https://lidoplayer.innovationcenter.id/cdn/audios/ES_Cocoona.aac",
-                description = "AAC Sample Sound",
-                isAudioOnly = true
+                description = "AAC Sample Sound"
             )
         )
         audio3.add(
             PlaylistItem(
                 title = "OGG Vorbis",
                 file = "https://lidoplayer.innovationcenter.id/cdn/audios/ES_Cocoona.ogg",
-                description = "OGG Vorbis Sample Sound",
-                isAudioOnly = true
+                description = "OGG Vorbis Sample Sound"
             )
         )
         audio4.add(
             PlaylistItem(
                 title = "Opus",
                 file = "https://lidoplayer.innovationcenter.id/cdn/audios/ES_Cocoona.opus",
-                description = "Opus Sample Sound",
-                isAudioOnly = true
+                description = "Opus Sample Sound"
             )
         )
         audio5.add(
             PlaylistItem(
                 title = "Internet Radio\nBBC Media",
                 file = "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_q",
-                description = "Internet Radio",
-                isAudioOnly = true,
-                isLive = true
+                description = "Internet Radio"
             )
         )
         audioList.addAll(listOf(audio1, audio2, audio3, audio4, audio5))

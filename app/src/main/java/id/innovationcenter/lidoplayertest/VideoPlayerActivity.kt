@@ -6,11 +6,12 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import id.innovationcenter.lidoplayer.repository.model.LidoPlaybackException
+import id.innovationcenter.lidoplayer.events.ErrorEvent
+import id.innovationcenter.lidoplayer.events.SeekEvent
+import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
 import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
 import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-import id.innovationcenter.lidoplayer.ui.LidoPlayerView
-import kotlinx.android.synthetic.main.activity_video_player.*
+import kotlinx.android.synthetic.main.activity_video_player.lidoPlayerView
 
 class VideoPlayerActivity : AppCompatActivity() {
     val TAG = "CLIENTAPP"
@@ -21,39 +22,43 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_video_player)
 
-//        lidoPlayerView.addOnErrorListener(object : LidoPlayerView.ErrorEventListener {
-//            override fun onErrorListener(error: LidoPlaybackException?) {
-//                Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
-//            }
-//        })
+        lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
+            override fun onErrorListener(error: ErrorEvent?) {
+                Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
+            }
+        })
 
-//        lidoPlayerView.addOnLoadingChangeListener(object : LidoPlayerView.LoadingEventListener {
-//            override fun onLoadingChange(isLoading: Boolean) {
-//                Log.e(TAG, "isPlayerLoading: $isLoading")
-//            }
-//        })
-//
-//        lidoPlayerView.addOnDisplayClickListener(object : LidoPlayerView.DisplayClickListener {
-//            override fun onDisplayClick() {
-//                Log.e(TAG, "isDisplayClicked")
-//            }
-//        })
-//
-//        lidoPlayerView.addOnPlayerStateEndListener(object : LidoPlayerView.PlayerStateEndListener {
-//            override fun onPlayerStateEnd(playWhenReady: Boolean) {
-//                Log.e(TAG, "playerStateEnd: $playWhenReady")
-//            }
-//        })
-//
-//        lidoPlayerView.addOnTracksChangeListener(object : LidoPlayerView.TracksChangeListener {
-//            override fun onTracksChange() {
-//                //add logic to do when tracks media has changed
-//                //example for check player has next media to play or not by calling playerHasNext() function
-//                Log.e(TAG, "trackHasChanged")
-//            }
-//        })
-//
-//        lidoPlayerView.addTimebarScrubListener(object : LidoPlayerView.TimebarScrubListener {
+        lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
+            override fun onBufferChange(isLoading: Boolean) {
+                Log.e(TAG,"onBuffer change: $isLoading")
+            }
+
+        })
+
+        lidoPlayerView.addOnDisplayClickListener(object : VideoPlayerEvents.OnDisplayClickListener {
+            override fun onDisplayClick() {
+                Log.e(TAG, "isDisplayClicked")
+            }
+        })
+
+        lidoPlayerView.addOnPlayerStateEndListener(object : VideoPlayerEvents.OnPlayerStateEndListener {
+            override fun onPlayerStateEnd(playWhenReady: Boolean) {
+                Log.e(TAG, "playerStateEnd: $playWhenReady")
+            }
+        })
+
+        lidoPlayerView.addOnTracksChangeListener(object : VideoPlayerEvents.TracksChangeListener {
+            override fun onTracksChange() {
+                //add logic to do when tracks media has changed
+                //example for check player has next media to play or not by calling playerHasNext() function
+                Log.e(TAG, "trackHasChanged")
+            }
+        })
+
+        lidoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
+            override fun onSeek(seekEvent: SeekEvent) {
+                Log.e(TAG, "Scrub controller at ${seekEvent.position}")
+            }
 //            override fun onScrubMoveStart(position: Long) {
 //                //when scrub progress of player start to move
 //                Log.e(TAG, "Scrub default controller start at $position")
@@ -68,7 +73,8 @@ class VideoPlayerActivity : AppCompatActivity() {
 //                //when scrub progress of player has stop move
 //                Log.e(TAG, "Scrub default controller stop move at $position")
 //            }
-//        })
+        })
+
 
 //        btnOpenPlayer?.setOnClickListener {
 //            val intent = Intent(this, LidoPlayerActivity::class.java)
@@ -105,8 +111,7 @@ class VideoPlayerActivity : AppCompatActivity() {
             file = AUDIO_URL_TEST3,
             image = IMG_NOAH,
             title = "Separuh AKu",
-            description = "Noah band from Bandung",
-            isAudioOnly = true
+            description = "Noah band from Bandung"
         )
         val itemPlaylist3 = PlaylistItem(file = STREAM_URL1, image = null)
 
@@ -131,7 +136,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         )
 
 
-        lidoPlayerView.config(playerConfig, this, contentPendingIntent)
+        lidoPlayerView.setup(playerConfig, this, contentPendingIntent)
         Log.d(TAG, "INIT Video Player")
     }
 
@@ -144,7 +149,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         super.onDestroy()
         //tidak perlu ditambah jika audio player only dan ingin diputar background service
         if (!lidoPlayerView.isAudioPlayerOnly())
-            lidoPlayerView.destroyPlayer()
+            lidoPlayerView.onDestroy()
     }
 
     override fun onPause() {
