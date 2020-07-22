@@ -38,7 +38,7 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api(name: 'lidoplayer-release36', ext: 'aar') {
+    api(name: 'lidoplayer-release38', ext: 'aar') {
         transitive = true
         changing = true
     }
