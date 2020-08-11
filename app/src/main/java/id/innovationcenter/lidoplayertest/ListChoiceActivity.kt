@@ -47,13 +47,11 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
             startActivity(intent)
 
             var itemChild = ""
-            var i = 0
-            for (item in playlistItem) {
+            for ((i, item) in playlistItem.withIndex()) {
                 itemChild += item.title
                 if (i != playlistItem.size - 1) {
                     itemChild += ", "
                 }
-                i++
             }
             Toast.makeText(
                 applicationContext,

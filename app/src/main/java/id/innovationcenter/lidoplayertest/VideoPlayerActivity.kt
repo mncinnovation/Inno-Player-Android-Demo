@@ -84,7 +84,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 //        }
         initVideo()
 
-        setIconController()
+//        setIconController()
     }
 
     private fun setIconController() {
