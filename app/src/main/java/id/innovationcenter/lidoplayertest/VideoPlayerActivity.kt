@@ -76,12 +76,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         })
 
 
-//        btnOpenPlayer?.setOnClickListener {
-//            val intent = Intent(this, LidoPlayerActivity::class.java)
-//            intent.putExtra("fileStr", STREAM_URL1)
-//            intent.putExtra("config", playerConfig)
-//            startActivity(intent)
-//        }
         initVideo()
 
 //        setIconController()
