@@ -42,7 +42,32 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 
-    implementation "co.innoplayer:innoplayer:0.2.1"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation(name: 'lidoplayer-release78', ext: 'aar')
+    implementation(name: 'innoplayer-core-release', ext: 'aar')
+    implementation(name: 'innoplayer-common-release', ext: 'aar')
+    implementation(name: 'innoplayer-ima-release', ext: 'aar')
+
+    //dependency from sdk player
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+//
+//    // full exoplayer library
+    implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
+    implementation "com.google.android.exoplayer:exoplayer-core:$exo_version"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$exo_version"
+    implementation "com.google.android.exoplayer:exoplayer-hls:$exo_version"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exo_version"
+//    //google ads IMA
+    implementation "com.google.android.exoplayer:extension-ima:$exo_version"
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.9.6'
+    // Base implementation with a standard SeekBar
+    implementation 'com.github.rubensousa:previewseekbar:3.0.0'
+    // ExoPlayer extension that contains a TimeBar.
+    // Grab this one if you're going to integrate with ExoPlayer
+    implementation 'com.github.rubensousa:previewseekbar-exoplayer:2.11.4.0'
+
+//    implementation "co.innoplayer:innoplayer:0.2.1"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

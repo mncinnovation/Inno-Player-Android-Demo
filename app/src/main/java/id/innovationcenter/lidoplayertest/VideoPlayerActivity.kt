@@ -6,11 +6,17 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import id.innovationcenter.lidoplayer.events.ErrorEvent
-import id.innovationcenter.lidoplayer.events.SeekEvent
-import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
-import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
-import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
+import id.innovationcenter.innoplayer.core.events.ErrorEvent
+import id.innovationcenter.innoplayer.core.events.SeekEvent
+import id.innovationcenter.innoplayer.core.events.listeners.VideoPlayerEvents
+import id.innovationcenter.innoplayer.core.repository.model.config.PlayerConfig
+import id.innovationcenter.innoplayer.core.repository.model.playlist.PlaylistItem
+import id.innovationcenter.innoplayer.ima.utils.MediaSourceAdsUtils
+//import id.innovationcenter.lidoplayer.events.ErrorEvent
+//import id.innovationcenter.lidoplayer.events.SeekEvent
+//import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
+//import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
+//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
 import kotlinx.android.synthetic.main.activity_video_player.lidoPlayerView
 
 class VideoPlayerActivity : AppCompatActivity() {
@@ -30,7 +36,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
             override fun onBufferChange(isLoading: Boolean) {
-                Log.e(TAG,"onBuffer change: $isLoading")
+                Log.e(TAG, "onBuffer change: $isLoading")
             }
 
         })
@@ -41,7 +47,8 @@ class VideoPlayerActivity : AppCompatActivity() {
             }
         })
 
-        lidoPlayerView.addOnPlayerStateEndListener(object : VideoPlayerEvents.OnPlayerStateEndListener {
+        lidoPlayerView.addOnPlayerStateEndListener(object :
+            VideoPlayerEvents.OnPlayerStateEndListener {
             override fun onPlayerStateEnd(playWhenReady: Boolean) {
                 Log.e(TAG, "playerStateEnd: $playWhenReady")
             }
@@ -115,7 +122,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 //        playlists.add(itemPlaylist3)
 //        playlists.add(itemPlaylist2)
 
-        if(intent.extras != null)
+        if (intent.extras != null)
             playlists.addAll(
                 intent.getSerializableExtra("playlistItems") as List<PlaylistItem>
             )
@@ -129,8 +136,8 @@ class VideoPlayerActivity : AppCompatActivity() {
             ), 0
         )
 
-
-        lidoPlayerView.setup(playerConfig, this, contentPendingIntent)
+        val mediaSourceUtils = MediaSourceAdsUtils(this)
+        lidoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
         Log.d(TAG, "INIT Video Player")
     }
 

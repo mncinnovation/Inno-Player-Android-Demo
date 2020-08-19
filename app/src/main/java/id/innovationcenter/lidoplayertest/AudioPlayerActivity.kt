@@ -6,12 +6,18 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
-import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-import id.innovationcenter.lidoplayer.LidoPlayerView
-import id.innovationcenter.lidoplayer.events.ErrorEvent
-import id.innovationcenter.lidoplayer.events.SeekEvent
-import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
+import id.innovationcenter.innoplayer.common.utils.MediaSourceUtils
+import id.innovationcenter.innoplayer.core.events.ErrorEvent
+import id.innovationcenter.innoplayer.core.events.SeekEvent
+import id.innovationcenter.innoplayer.core.events.listeners.VideoPlayerEvents
+import id.innovationcenter.innoplayer.core.repository.model.config.PlayerConfig
+import id.innovationcenter.innoplayer.core.repository.model.playlist.PlaylistItem
+//import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
+//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
+//import id.innovationcenter.lidoplayer.LidoPlayerView
+//import id.innovationcenter.lidoplayer.events.ErrorEvent
+//import id.innovationcenter.lidoplayer.events.SeekEvent
+//import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
 import kotlinx.android.synthetic.main.activity_audio_player.*
 
 class AudioPlayerActivity : AppCompatActivity() {
@@ -106,8 +112,9 @@ class AudioPlayerActivity : AppCompatActivity() {
             ), 0
         )
 
+        val mediaSourceUtils = MediaSourceUtils(this)
+        lidoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
 
-        lidoPlayerView.setup(playerConfig, this, contentPendingIntent)
         Log.d(TAG, "INIT Video Player")
     }
 

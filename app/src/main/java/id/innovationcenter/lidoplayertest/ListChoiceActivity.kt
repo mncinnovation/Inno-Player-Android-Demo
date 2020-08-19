@@ -5,19 +5,28 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import id.innovationcenter.lidoplayer.LidoPlayerSDK
-import id.innovationcenter.lidoplayer.repository.model.ads.AdBreak
-import id.innovationcenter.lidoplayer.repository.model.ads.AdSource
-import id.innovationcenter.lidoplayer.repository.model.ads.AdType
-import id.innovationcenter.lidoplayer.repository.model.drm.DrmLicense
-import id.innovationcenter.lidoplayer.repository.model.feature.Feature
-import id.innovationcenter.lidoplayer.repository.model.playlist.MimeTypeSubtitle
-import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-import id.innovationcenter.lidoplayer.repository.model.subtitle.SubtitleInfo
+import id.innovationcenter.innoplayer.InnoPlayerSDK
+import id.innovationcenter.innoplayer.core.repository.model.ads.AdBreak
+import id.innovationcenter.innoplayer.core.repository.model.ads.AdSource
+import id.innovationcenter.innoplayer.core.repository.model.ads.AdType
+import id.innovationcenter.innoplayer.core.repository.model.drm.DrmLicense
+import id.innovationcenter.innoplayer.core.repository.model.feature.Feature
+import id.innovationcenter.innoplayer.core.repository.model.playlist.MimeTypeSubtitle
+import id.innovationcenter.innoplayer.core.repository.model.playlist.PlaylistItem
+import id.innovationcenter.innoplayer.core.repository.model.subtitle.SubtitleInfo
+//import id.innovationcenter.lidoplayer.LidoPlayerSDK
+//import id.innovationcenter.lidoplayer.repository.model.ads.AdBreak
+//import id.innovationcenter.lidoplayer.repository.model.ads.AdSource
+//import id.innovationcenter.lidoplayer.repository.model.ads.AdType
+//import id.innovationcenter.lidoplayer.repository.model.drm.DrmLicense
+//import id.innovationcenter.lidoplayer.repository.model.feature.Feature
+//import id.innovationcenter.lidoplayer.repository.model.playlist.MimeTypeSubtitle
+//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
+//import id.innovationcenter.lidoplayer.repository.model.subtitle.SubtitleInfo
 import kotlinx.android.synthetic.main.activity_list_choice.*
 import java.io.Serializable
 
-class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialListener {
+class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialListener {
     val TAG = "CLIENTAPP"
     lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
@@ -27,7 +36,7 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_choice)
 
-        LidoPlayerSDK().init(
+        InnoPlayerSDK().init(
             this, this,
             "ExoPlayerDemo", "f230a20ffa2bc9d33f18fc0444ef95106f2f903bbfaf30a45b15c60619f8d70b",
             this
