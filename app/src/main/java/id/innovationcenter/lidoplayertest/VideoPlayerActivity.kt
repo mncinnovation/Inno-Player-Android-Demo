@@ -6,12 +6,12 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import id.innovationcenter.innoplayer.core.events.ErrorEvent
-import id.innovationcenter.innoplayer.core.events.SeekEvent
-import id.innovationcenter.innoplayer.core.events.listeners.VideoPlayerEvents
-import id.innovationcenter.innoplayer.core.repository.model.config.PlayerConfig
-import id.innovationcenter.innoplayer.core.repository.model.playlist.PlaylistItem
+import id.innovationcenter.innoplayer.configuration.PlayerConfig
+import id.innovationcenter.innoplayer.events.ErrorEvent
+import id.innovationcenter.innoplayer.events.SeekEvent
+import id.innovationcenter.innoplayer.events.listeners.VideoPlayerEvents
 import id.innovationcenter.innoplayer.ima.utils.MediaSourceAdsUtils
+import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
 //import id.innovationcenter.lidoplayer.events.ErrorEvent
 //import id.innovationcenter.lidoplayer.events.SeekEvent
 //import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents

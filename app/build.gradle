@@ -44,9 +44,9 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation(name: 'lidoplayer-release78', ext: 'aar')
-    implementation(name: 'innoplayer-core-release', ext: 'aar')
-    implementation(name: 'innoplayer-common-release', ext: 'aar')
-    implementation(name: 'innoplayer-ima-release', ext: 'aar')
+    implementation(name: 'innoplayer-core-release7', ext: 'aar')
+    implementation(name: 'innoplayer-common-release7', ext: 'aar')
+    implementation(name: 'innoplayer-ima-release7', ext: 'aar')
 
     //dependency from sdk player
     //glide
