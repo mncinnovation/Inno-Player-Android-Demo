@@ -8,8 +8,6 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
 
-//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-
 class ChoiceExpandableListAdapter(
     context: Context,
     private val listHeader: List<String>,

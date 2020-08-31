@@ -14,15 +14,6 @@ import id.innovationcenter.innoplayer.core.repository.model.feature.Feature
 import id.innovationcenter.innoplayer.media.captions.MimeTypeSubtitle
 import id.innovationcenter.innoplayer.media.captions.SubtitleInfo
 import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
-//import id.innovationcenter.lidoplayer.LidoPlayerSDK
-//import id.innovationcenter.lidoplayer.repository.model.ads.AdBreak
-//import id.innovationcenter.lidoplayer.repository.model.ads.AdSource
-//import id.innovationcenter.lidoplayer.repository.model.ads.AdType
-//import id.innovationcenter.lidoplayer.repository.model.drm.DrmLicense
-//import id.innovationcenter.lidoplayer.repository.model.feature.Feature
-//import id.innovationcenter.lidoplayer.repository.model.playlist.MimeTypeSubtitle
-//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-//import id.innovationcenter.lidoplayer.repository.model.subtitle.SubtitleInfo
 import kotlinx.android.synthetic.main.activity_list_choice.*
 import java.io.Serializable
 

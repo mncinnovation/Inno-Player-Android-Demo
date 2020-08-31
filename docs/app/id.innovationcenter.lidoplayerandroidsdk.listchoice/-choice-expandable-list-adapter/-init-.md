@@ -1,0 +1,5 @@
+[app](../../index.md) / [id.innovationcenter.lidoplayerandroidsdk.listchoice](../index.md) / [ChoiceExpandableListAdapter](index.md) / [&lt;init&gt;](./-init-.md)
+
+# &lt;init&gt;
+
+`ChoiceExpandableListAdapter(context: `[`Context`](https://developer.android.com/reference/android/content/Context.html)`, listHeader: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`>, listDataChild: `[`HashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<PlaylistItem>>>)`

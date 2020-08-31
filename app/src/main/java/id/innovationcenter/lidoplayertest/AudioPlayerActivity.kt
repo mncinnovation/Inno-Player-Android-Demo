@@ -12,12 +12,6 @@ import id.innovationcenter.innoplayer.events.ErrorEvent
 import id.innovationcenter.innoplayer.events.SeekEvent
 import id.innovationcenter.innoplayer.events.listeners.VideoPlayerEvents
 import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
-//import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
-//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-//import id.innovationcenter.lidoplayer.LidoPlayerView
-//import id.innovationcenter.lidoplayer.events.ErrorEvent
-//import id.innovationcenter.lidoplayer.events.SeekEvent
-//import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
 import kotlinx.android.synthetic.main.activity_audio_player.*
 
 class AudioPlayerActivity : AppCompatActivity() {

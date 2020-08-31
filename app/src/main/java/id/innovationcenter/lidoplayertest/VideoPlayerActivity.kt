@@ -7,16 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import id.innovationcenter.innoplayer.configuration.PlayerConfig
+import id.innovationcenter.innoplayer.core.utils.MediaSourceUtils
 import id.innovationcenter.innoplayer.events.ErrorEvent
 import id.innovationcenter.innoplayer.events.SeekEvent
 import id.innovationcenter.innoplayer.events.listeners.VideoPlayerEvents
 import id.innovationcenter.innoplayer.ima.utils.MediaSourceAdsUtils
 import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
-//import id.innovationcenter.lidoplayer.events.ErrorEvent
-//import id.innovationcenter.lidoplayer.events.SeekEvent
-//import id.innovationcenter.lidoplayer.events.listeners.VideoPlayerEvents
-//import id.innovationcenter.lidoplayer.repository.model.config.PlayerConfig
-//import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
 import kotlinx.android.synthetic.main.activity_video_player.lidoPlayerView
 
 class VideoPlayerActivity : AppCompatActivity() {
@@ -133,7 +129,7 @@ class VideoPlayerActivity : AppCompatActivity() {
             this, 0, Intent(
                 this,
                 VideoPlayerActivity::class.java
-            ), 0
+            ),0
         )
 
         val mediaSourceUtils = MediaSourceAdsUtils(this)

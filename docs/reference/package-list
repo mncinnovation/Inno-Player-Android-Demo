@@ -1,0 +1,12 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:id.innovationcenter.innoplayer.ima.utils$generateVMAP(kotlin.collections.List((id.innovationcenter.innoplayer.media.ads.AdBreak)))id.innovationcenter.innoplayer.ima.utils/kotlin.collections.-list/generate-v-m-a-p.md
+id.innovationcenter.innoplayer
+id.innovationcenter.innoplayer.configuration
+id.innovationcenter.innoplayer.events
+id.innovationcenter.innoplayer.events.listeners
+id.innovationcenter.innoplayer.ima.utils
+id.innovationcenter.innoplayer.media.ads
+id.innovationcenter.innoplayer.media.captions
+id.innovationcenter.innoplayer.media.drm
+id.innovationcenter.innoplayer.media.playlists
