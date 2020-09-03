@@ -11,11 +11,11 @@ Here are our player features so far. Keep tune in to get the lastest feature.
 * [x] Fullscreen video playback
 * [x] Adaptive Bitrate (ABR) support and manual quality selection
 * [x] Integrated advertisement Google IMA
-* [ ] Closed Captions (subtitle) support
-* [ ] Customizable UI
-* [ ] DRM support (Google Widevine & Microsoft PlayReady) includes ClearKey
+* [x] Closed Captions (subtitle) support
+* [x] Customizable UI
+* [x] DRM support (Google Widevine & Microsoft PlayReady) includes ClearKey
 * [ ] Cast support
-* [ ] Analytics
+* [x] Analytics
 
 # Tutorial
 
