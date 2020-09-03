@@ -1,4 +1,4 @@
-#Initial Innoplayer SDK on project
+# Initial InnoPlayer SDK on project
 
 ## Add InnoPlayer SDK Libraries
 
