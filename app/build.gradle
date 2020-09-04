@@ -42,7 +42,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 
-    implementation "co.innoplayer:innoplayer:0.2.1"
+    implementation "co.innoplayer:innoplayer-core:0.3.0"
+    implementation "co.innoplayer:innoplayer-common:0.3.0"
+    implementation "co.innoplayer:innoplayer-ima:0.3.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -5,19 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import id.innovationcenter.lidoplayer.LidoPlayerSDK
-import id.innovationcenter.lidoplayer.repository.model.ads.AdBreak
-import id.innovationcenter.lidoplayer.repository.model.ads.AdSource
-import id.innovationcenter.lidoplayer.repository.model.ads.AdType
-import id.innovationcenter.lidoplayer.repository.model.drm.DrmLicense
-import id.innovationcenter.lidoplayer.repository.model.feature.Feature
-import id.innovationcenter.lidoplayer.repository.model.playlist.MimeTypeSubtitle
-import id.innovationcenter.lidoplayer.repository.model.playlist.PlaylistItem
-import id.innovationcenter.lidoplayer.repository.model.subtitle.SubtitleInfo
+import id.innovationcenter.innoplayer.InnoPlayerSDK
+import id.innovationcenter.innoplayer.media.ads.AdBreak
+import id.innovationcenter.innoplayer.media.ads.AdSource
+import id.innovationcenter.innoplayer.media.ads.AdType
+import id.innovationcenter.innoplayer.media.drm.DrmLicense
+import id.innovationcenter.innoplayer.core.repository.model.feature.Feature
+import id.innovationcenter.innoplayer.media.captions.MimeTypeSubtitle
+import id.innovationcenter.innoplayer.media.captions.SubtitleInfo
+import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
 import kotlinx.android.synthetic.main.activity_list_choice.*
 import java.io.Serializable
 
-class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialListener {
+class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialListener {
     val TAG = "CLIENTAPP"
     lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
@@ -27,7 +27,7 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_choice)
 
-        LidoPlayerSDK().init(
+        InnoPlayerSDK().init(
             this, this,
             "ExoPlayerDemo", "f230a20ffa2bc9d33f18fc0444ef95106f2f903bbfaf30a45b15c60619f8d70b",
             this
@@ -66,11 +66,19 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
 
     private fun prepareListData() {
         listHeader.add("Basic Streaming")
+        val hls0: MutableList<PlaylistItem> = ArrayList()
         val hls1: MutableList<PlaylistItem> = ArrayList()
         val hls2: MutableList<PlaylistItem> = ArrayList()
         val hls3: MutableList<PlaylistItem> = ArrayList()
         val hls4: MutableList<PlaylistItem> = ArrayList()
         val hlsPlaylistSample = mutableListOf<List<PlaylistItem>>()
+        hls0.add(
+            PlaylistItem(
+                title = "Preview Thumbnails",
+                file = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd",
+                urlThumbnails = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg"
+            )
+        )
         hls1.add(
             PlaylistItem(
                 title = "HLS",
@@ -96,7 +104,7 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
             )
         )
 
-        hlsPlaylistSample.addAll(listOf(hls1, hls2, hls3, hls4))
+        hlsPlaylistSample.addAll(listOf(hls1, hls2, hls3, hls4, hls0))
         listChild[listHeader[0]] = hlsPlaylistSample
 
         listHeader.add("Live Streaming")
@@ -291,11 +299,7 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
 
         listHeader.add("DRM")
         val gts1: MutableList<PlaylistItem> = ArrayList()
-        val gts2: MutableList<PlaylistItem> = ArrayList()
-        val gts3: MutableList<PlaylistItem> = ArrayList()
-        val gts4: MutableList<PlaylistItem> = ArrayList()
-        val gts5: MutableList<PlaylistItem> = ArrayList()
-        val gts6: MutableList<PlaylistItem> = ArrayList()
+
         val gtsPlaylist = mutableListOf<List<PlaylistItem>>()
         val drmLicenseList = mutableListOf<DrmLicense>()
         drmLicenseList.add(DrmLicense("widevine", "https://cwip-shaka-proxy.appspot.com/no_auth"))
@@ -306,56 +310,7 @@ class ListChoiceActivity : AppCompatActivity(), LidoPlayerSDK.KeyCheckInitialLis
                 drmLicenses = drmLicenseList
             )
         )
-        val drmLicenseList2 = mutableListOf<DrmLicense>()
-        drmLicenseList2.add(
-            DrmLicense(
-                "playready",
-                "https://test.playready.microsoft.com/service/rightsmanager.asmx?PlayRight=1&UseSimpleNonPersistentLicense=1"
-            )
-        )
-        gts2.add(
-            PlaylistItem(
-                title = "Playready",
-                file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-dash-playready.ism/.mpd",
-                drmLicenses = drmLicenseList2
-            )
-        )
-        val drmLicenseList3 = mutableListOf<DrmLicense>()
-        drmLicenseList3.add(
-            DrmLicense(
-                "fairplay",
-                ""
-            )
-        )
-        gts3.add(
-            PlaylistItem(
-                title = "FairPlay",
-                file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-dash-playready.ism/.mpd",
-                drmLicenses = drmLicenseList3
-            )
-        )
-
-        val drmLicenseList4 = mutableListOf<DrmLicense>()
-        drmLicenseList4.add(
-            DrmLicense(
-                "widevine",
-                "https://amssamples.keydelivery.mediaservices.windows.net/Widevine/?KID=1ab45440-532c-4399-94dc-5c5ad9584bac"
-            )
-        )
-        drmLicenseList4.add(
-            DrmLicense(
-                "playready",
-                "https://amssamples.keydelivery.mediaservices.windows.net/PlayReady/"
-            )
-        )
-        gts4.add(
-            PlaylistItem(
-                title = "Multi DRM",
-                file = "https://amssamples.streaming.mediaservices.windows.net/622b189f-ec39-43f2-93a2-201ac4e31ce1/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
-                drmLicenses = drmLicenseList4
-            )
-        )
-        gtsPlaylist.addAll(listOf(gts1, gts2, gts3, gts4))
+        gtsPlaylist.addAll(listOf(gts1))
         listChild[listHeader[5]] = gtsPlaylist
 
         listHeader.add("Subtitles Embedded in stream")

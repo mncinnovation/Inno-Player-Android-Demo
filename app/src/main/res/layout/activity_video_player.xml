@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".VideoPlayerActivity">
 
-    <id.innovationcenter.lidoplayer.LidoPlayerView
+    <id.innovationcenter.innoplayer.InnoPlayerView
         android:id="@+id/lidoPlayerView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:audio_player_only="false"
         app:fast_backward_increment="20000"
         app:fast_forward_increment="20000"
-        app:lido_stretching="pillarbox" />
+        app:inno_stretching="pillarbox" />
 
 </RelativeLayout>
