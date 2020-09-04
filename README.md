@@ -1,4 +1,4 @@
-# LidoPlayer Android SDK
+# InnoPlayer Android SDK
 
 ## Feature
 
