@@ -66,11 +66,19 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
     private fun prepareListData() {
         listHeader.add("Basic Streaming")
+        val hls0: MutableList<PlaylistItem> = ArrayList()
         val hls1: MutableList<PlaylistItem> = ArrayList()
         val hls2: MutableList<PlaylistItem> = ArrayList()
         val hls3: MutableList<PlaylistItem> = ArrayList()
         val hls4: MutableList<PlaylistItem> = ArrayList()
         val hlsPlaylistSample = mutableListOf<List<PlaylistItem>>()
+        hls0.add(
+            PlaylistItem(
+                title = "Preview Thumbnails",
+                file = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd",
+                urlThumbnails = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg"
+            )
+        )
         hls1.add(
             PlaylistItem(
                 title = "HLS",
@@ -96,7 +104,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             )
         )
 
-        hlsPlaylistSample.addAll(listOf(hls1, hls2, hls3, hls4))
+        hlsPlaylistSample.addAll(listOf(hls1, hls2, hls3, hls4, hls0))
         listChild[listHeader[0]] = hlsPlaylistSample
 
         listHeader.add("Live Streaming")
