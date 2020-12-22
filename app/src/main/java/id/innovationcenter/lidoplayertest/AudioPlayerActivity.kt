@@ -6,12 +6,13 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import id.innovationcenter.innoplayer.configuration.PlayerConfig
-import id.innovationcenter.innoplayer.core.utils.MediaSourceUtils
-import id.innovationcenter.innoplayer.events.ErrorEvent
-import id.innovationcenter.innoplayer.events.SeekEvent
-import id.innovationcenter.innoplayer.events.listeners.VideoPlayerEvents
-import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
+import co.innoplayer.configuration.PlayerConfig
+import co.innoplayer.core.utils.MediaSourceUtils
+import co.innoplayer.events.ErrorEvent
+import co.innoplayer.events.SeekEvent
+import co.innoplayer.events.listeners.VideoPlayerEvents
+import co.innoplayer.media.playlists.PlaylistItem
+
 import kotlinx.android.synthetic.main.activity_audio_player.*
 
 class AudioPlayerActivity : AppCompatActivity() {

@@ -5,15 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import id.innovationcenter.innoplayer.InnoPlayerSDK
-import id.innovationcenter.innoplayer.media.ads.AdBreak
-import id.innovationcenter.innoplayer.media.ads.AdSource
-import id.innovationcenter.innoplayer.media.ads.AdType
-import id.innovationcenter.innoplayer.media.drm.DrmLicense
-import id.innovationcenter.innoplayer.core.repository.model.feature.Feature
-import id.innovationcenter.innoplayer.media.captions.MimeTypeSubtitle
-import id.innovationcenter.innoplayer.media.captions.SubtitleInfo
-import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
+import co.innoplayer.InnoPlayerSDK
+import co.innoplayer.media.ads.AdBreak
+import co.innoplayer.media.ads.AdSource
+import co.innoplayer.media.ads.AdType
+import co.innoplayer.media.drm.DrmLicense
+import co.innoplayer.core.repository.model.feature.Feature
+import co.innoplayer.media.captions.MimeTypeSubtitle
+import co.innoplayer.media.captions.SubtitleInfo
+import co.innoplayer.media.playlists.PlaylistItem
 import kotlinx.android.synthetic.main.activity_list_choice.*
 import java.io.Serializable
 

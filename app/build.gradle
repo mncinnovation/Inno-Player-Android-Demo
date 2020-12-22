@@ -12,7 +12,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-//        multiDexEnabled true
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,13 +38,49 @@ repositories {
 }
 dependencies {
 
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(name: 'innoplayer-core-release', ext: 'aar')
+    implementation(name: 'innoplayer-common-release', ext: 'aar')
+    implementation(name: 'innoplayer-ima-release', ext: 'aar')
+    implementation(name: 'innoplayer-chromecast-release', ext: 'aar')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 
-    implementation "co.innoplayer:innoplayer-core:0.3.0"
-    implementation "co.innoplayer:innoplayer-common:0.3.0"
-    implementation "co.innoplayer:innoplayer-ima:0.3.0"
+//    implementation "co.innoplayer:innoplayer-core:0.3.0"
+//    implementation "co.innoplayer:innoplayer-common:0.3.0"
+//    implementation "co.innoplayer:innoplayer-ima:0.3.0"
+
+    //glide for load image
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation("com.google.android.exoplayer:exoplayer-core:$exo_version") {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    }
+    implementation("com.google.android.exoplayer:exoplayer-dash:$exo_version") {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    }
+    implementation("com.google.android.exoplayer:exoplayer-hls:$exo_version") {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    }
+    implementation("com.google.android.exoplayer:exoplayer-ui:$exo_version") {
+        exclude group: 'androidx.annotation', module: 'annotation'
+        exclude group: 'androidx.media', module: 'media'
+    }
+
+    //google ads IMA extention
+    implementation ("com.google.android.exoplayer:extension-ima:$exo_version") {
+        exclude group: 'androidx.annotation', module: 'annotation'
+    }
+
+    //mediasession extention
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.9.6'
+    //cast
+    implementation "com.google.android.exoplayer:extension-cast:$exo_version"
+
+    //=========== end additional for aar only
+
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -1,27 +1,52 @@
 package id.innovationcenter.lidoplayertest
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
-import id.innovationcenter.innoplayer.configuration.PlayerConfig
-import id.innovationcenter.innoplayer.core.utils.MediaSourceUtils
-import id.innovationcenter.innoplayer.events.ErrorEvent
-import id.innovationcenter.innoplayer.events.SeekEvent
-import id.innovationcenter.innoplayer.events.listeners.VideoPlayerEvents
-import id.innovationcenter.innoplayer.ima.utils.MediaSourceAdsUtils
-import id.innovationcenter.innoplayer.media.playlists.PlaylistItem
+import android.view.Menu
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.dynamite.DynamiteModule
+import co.innoplayer.configuration.PlayerConfig
+import co.innoplayer.events.ErrorEvent
+import co.innoplayer.events.SeekEvent
+import co.innoplayer.events.listeners.VideoPlayerEvents
+import co.innoplayer.ima.utils.MediaSourceAdsUtils
+import co.innoplayer.media.playlists.PlaylistItem
 import kotlinx.android.synthetic.main.activity_video_player.lidoPlayerView
 
 class VideoPlayerActivity : AppCompatActivity() {
     val TAG = "CLIENTAPP"
     lateinit var playerConfig: PlayerConfig
+    private var handlers: Handler? = null
+    private var castContext: CastContext? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (isGoogleApiAvailable(this)) {
+            try {
+                castContext = CastContext.getSharedInstance(this)
+            } catch (e: RuntimeException) {
+                var cause = e.cause
+                while (cause != null) {
+                    if (cause is DynamiteModule.LoadingException) {
+                        setContentView(R.layout.cast_context_error)
+                        return
+                    }
+                    cause = cause.cause
+                }
+                e.printStackTrace()
+                throw e
+            }
+        }
         setContentView(R.layout.activity_video_player)
 
         lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
@@ -129,12 +154,28 @@ class VideoPlayerActivity : AppCompatActivity() {
             this, 0, Intent(
                 this,
                 VideoPlayerActivity::class.java
-            ),0
+            ), 0
         )
 
         val mediaSourceUtils = MediaSourceAdsUtils(this)
-        lidoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
+        lidoPlayerView.setup(
+            playerConfig,
+            this,
+            mediaSourceUtils,
+            contentPendingIntent,
+            true,
+            castContext
+        )
         Log.d(TAG, "INIT Video Player")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+
+        menuInflater.inflate(R.menu.menu_cast, menu)
+        CastButtonFactory.setUpMediaRouteButton(this, menu, R.id.media_route_menu_item)
+
+        return true
     }
 
     override fun onResume() {
@@ -159,6 +200,28 @@ class VideoPlayerActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (!lidoPlayerView.onBackPressedIsExitFullscreen())
             super.onBackPressed()
+    }
+
+    // Without the Google API's Chromecast won't work
+    private fun isGoogleApiAvailable(context: Context): Boolean {
+        val isOldPlayStoreInstalled: Boolean =
+            doesPackageExist("com.google.market")
+        val isNewPlayStoreInstalled: Boolean =
+            doesPackageExist("com.android.vending")
+        val isPlaystoreInstalled =
+            isNewPlayStoreInstalled || isOldPlayStoreInstalled
+        val isGoogleApiAvailable = GoogleApiAvailability.getInstance()
+            .isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
+        return isPlaystoreInstalled && isGoogleApiAvailable
+    }
+
+    private fun doesPackageExist(targetPackage: String): Boolean {
+        try {
+            packageManager.getPackageInfo(targetPackage, PackageManager.GET_META_DATA)
+        } catch (e: PackageManager.NameNotFoundException) {
+            return false
+        }
+        return true
     }
 
     companion object {
