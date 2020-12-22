@@ -39,10 +39,10 @@ repositories {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation(name: 'innoplayer-core-release', ext: 'aar')
-    implementation(name: 'innoplayer-common-release', ext: 'aar')
-    implementation(name: 'innoplayer-ima-release', ext: 'aar')
-    implementation(name: 'innoplayer-chromecast-release', ext: 'aar')
+    implementation(name: 'innoplayer-core-release7', ext: 'aar')
+    implementation(name: 'innoplayer-common-release7', ext: 'aar')
+    implementation(name: 'innoplayer-ima-release7', ext: 'aar')
+    implementation(name: 'innoplayer-chromecast-release7', ext: 'aar')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
