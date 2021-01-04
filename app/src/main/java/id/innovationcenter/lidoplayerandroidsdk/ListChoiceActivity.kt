@@ -1,4 +1,4 @@
-package id.innovationcenter.lidoplayertest
+package id.innovationcenter.lidoplayerandroidsdk
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +33,13 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             this, this,
             "ExoPlayerDemo", "f230a20ffa2bc9d33f18fc0444ef95106f2f903bbfaf30a45b15c60619f8d70b",
             this
+        )
+
+        InnoPlayerSDK().initMncAnalytics(
+            this,
+            "Fw2EgY5ZdYS9XrBkxEJMBXm3AcjB0Lq4gZuSmZUht94wXQlM",
+            null,
+            "ExoPlayerDemo"
         )
 
         prepareListData()
@@ -78,31 +85,41 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         hls1.add(
             PlaylistItem(
+                videoID = "BasicHLSVideoDemo",
+                category = "Basic",
                 title = "HLS",
                 file = "${DEV_URL_INNO}cdn/videos/la_chute_d_une_plume/index.m3u8"
             )
         )
         hls2.add(
             PlaylistItem(
+                videoID = "BasicMPEG-DASHVideoDemo",
+                category = "Basic",
                 title = "MPEG-DASH",
                 file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
             )
         )
         hls3.add(
             PlaylistItem(
+                videoID = "BasicHLSCMAFVideoDemo",
+                category = "Basic",
                 title = "HLS (CMAF)",
                 file = "${DEV_URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264_master.m3u8"
             )
         )
         hls4.add(
             PlaylistItem(
+                videoID = "BasicMPEG-DASHCMAFVideoDemo",
+                category = "Basic",
                 title = "MPEG-DASH (CMAF)",
                 file = "${DEV_URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264.mpd"
             )
         )
         hls5.add(
             PlaylistItem(
+                videoID = "BasicPreviewThumbnailsVideoDemo",
                 title = "Preview Thumbnails",
+                category = "Basic",
                 file = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd",
                 urlThumbnails = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg"
             )

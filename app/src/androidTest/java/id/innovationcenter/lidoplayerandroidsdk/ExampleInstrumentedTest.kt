@@ -1,4 +1,4 @@
-package id.innovationcenter.lidoplayertest
+package id.innovationcenter.lidoplayerandroidsdk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

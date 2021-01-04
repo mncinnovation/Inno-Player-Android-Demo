@@ -1,4 +1,4 @@
-package id.innovationcenter.lidoplayertest
+package id.innovationcenter.lidoplayerandroidsdk
 
 import android.app.PendingIntent
 import android.content.Context
@@ -50,7 +50,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video_player)
 
         lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
-            override fun onErrorListener(error: ErrorEvent?) {
+            override fun onError(error: ErrorEvent?) {
                 Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
             }
         })

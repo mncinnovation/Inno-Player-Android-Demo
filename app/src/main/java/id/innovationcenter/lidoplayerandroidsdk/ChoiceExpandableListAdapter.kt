@@ -1,4 +1,4 @@
-package id.innovationcenter.lidoplayertest
+package id.innovationcenter.lidoplayerandroidsdk
 
 import android.content.Context
 import android.view.LayoutInflater

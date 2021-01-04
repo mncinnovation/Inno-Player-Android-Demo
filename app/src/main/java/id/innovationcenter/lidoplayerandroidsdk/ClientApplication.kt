@@ -1,10 +1,9 @@
-package id.innovationcenter.lidoplayertest
+package id.innovationcenter.lidoplayerandroidsdk
 
 import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.multidex.MultiDex
-import androidx.multidex.MultiDexApplication
 
 class ClientApplication : Application() {
     override fun attachBaseContext(base: Context?) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.innovationcenter.lidoplayertest">
+    package="id.innovationcenter.lidoplayerandroidsdk">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -10,7 +10,7 @@
 
 
     <application
-        android:name="id.innovationcenter.lidoplayertest.ClientApplication"
+        android:name="id.innovationcenter.lidoplayerandroidsdk.ClientApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,9 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
-        <activity android:name=".AudioPlayerActivity"></activity>
-        <activity android:name=".VideoPlayerActivity" />
-        <activity android:name=".ListChoiceActivity">
+        <activity android:name="id.innovationcenter.lidoplayerandroidsdk.AudioPlayerActivity"></activity>
+        <activity android:name="id.innovationcenter.lidoplayerandroidsdk.VideoPlayerActivity" />
+        <activity android:name="id.innovationcenter.lidoplayerandroidsdk.ListChoiceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
