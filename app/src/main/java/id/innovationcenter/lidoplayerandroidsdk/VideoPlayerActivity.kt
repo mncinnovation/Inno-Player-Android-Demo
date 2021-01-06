@@ -10,12 +10,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.Menu
+import co.innoplayer.analytics.AnalyticsListener
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.dynamite.DynamiteModule
 import co.innoplayer.configuration.PlayerConfig
+import co.innoplayer.decoder.DecoderCounters
 import co.innoplayer.events.ErrorEvent
 import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
@@ -106,6 +108,108 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         initVideo()
 
+        lidoPlayerView?.setAnalyticsListener(object : AnalyticsListener {
+            override fun onAudioSessionId(
+                eventTime: AnalyticsListener.EventTime,
+                audioSessionId: Int
+            ) {
+                super.onAudioSessionId(eventTime, audioSessionId)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onAudioUnderrun(
+                eventTime: AnalyticsListener.EventTime,
+                bufferSize: Int,
+                bufferSizeMs: Long,
+                elapsedSinceLastFeedMs: Long
+            ) {
+                super.onAudioUnderrun(eventTime, bufferSize, bufferSizeMs, elapsedSinceLastFeedMs)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onBandwidthEstimate(
+                eventTime: AnalyticsListener.EventTime,
+                totalLoadTimeMs: Int,
+                totalBytesLoaded: Long,
+                bitrateEstimate: Long
+            ) {
+                super.onBandwidthEstimate(
+                    eventTime,
+                    totalLoadTimeMs,
+                    totalBytesLoaded,
+                    bitrateEstimate
+                )
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onDecoderDisabled(
+                eventTime: AnalyticsListener.EventTime,
+                trackType: Int,
+                decoderCounters: DecoderCounters
+            ) {
+                super.onDecoderDisabled(eventTime, trackType, decoderCounters)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+            override fun onDecoderEnabled(
+                eventTime: AnalyticsListener.EventTime,
+                trackType: Int,
+                decoderCounters: co.innoplayer.decoder.DecoderCounters
+            ) {
+                super.onDecoderEnabled(eventTime, trackType, decoderCounters)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
+                super.onSeekStarted(eventTime)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onDecoderInitialized(
+                eventTime: AnalyticsListener.EventTime,
+                trackType: Int,
+                decoderName: String,
+                initializationDurationMs: Long
+            ) {
+                super.onDecoderInitialized(
+                    eventTime,
+                    trackType,
+                    decoderName,
+                    initializationDurationMs
+                )
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onDecoderInputFormatChanged(
+                eventTime: AnalyticsListener.EventTime,
+                trackType: Int,
+                format: co.innoplayer.Format
+            ) {
+                super.onDecoderInputFormatChanged(eventTime, trackType, format)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+            override fun onTracksChanged(
+                eventTime: AnalyticsListener.EventTime,
+                trackGroups: co.innoplayer.source.TrackGroupArray
+            ) {
+                super.onTracksChanged(eventTime, trackGroups)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+            override fun onShuffleModeChanged(
+                eventTime: AnalyticsListener.EventTime,
+                shuffleModeEnabled: Boolean
+            ) {
+                super.onShuffleModeChanged(eventTime, shuffleModeEnabled)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+
+            override fun onAudioAttributesChanged(
+                eventTime: AnalyticsListener.EventTime,
+                audioAttributes: co.innoplayer.audio.AudioAttributes
+            ) {
+                super.onAudioAttributesChanged(eventTime, audioAttributes)
+                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+            }
+        })
 //        setIconController()
     }
 
