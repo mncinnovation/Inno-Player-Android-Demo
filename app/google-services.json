@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "812834443889",
+    "project_id": "lidoplayer",
+    "storage_bucket": "lidoplayer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812834443889:android:21c932c2de4392dda6c1d0",
+        "android_client_info": {
+          "package_name": "id.innovationcenter.lidoplayerandroidsdk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812834443889-d8i3i1j79pm7reden8quoomrlj4djdhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq0pUWva-uGijZfcf9DzxpOA0QRB22wLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812834443889-d8i3i1j79pm7reden8quoomrlj4djdhp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

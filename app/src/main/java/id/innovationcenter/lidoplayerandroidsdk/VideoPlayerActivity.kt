@@ -23,6 +23,10 @@ import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
 import co.innoplayer.ima.utils.MediaSourceAdsUtils
 import co.innoplayer.media.playlists.PlaylistItem
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_video_player.lidoPlayerView
 
 class VideoPlayerActivity : AppCompatActivity() {
@@ -30,9 +34,11 @@ class VideoPlayerActivity : AppCompatActivity() {
     lateinit var playerConfig: PlayerConfig
     private var handlers: Handler? = null
     private var castContext: CastContext? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = Firebase.analytics
         if (isGoogleApiAvailable(this)) {
             try {
                 castContext = CastContext.getSharedInstance(this)
@@ -161,6 +167,12 @@ class VideoPlayerActivity : AppCompatActivity() {
 
             override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
                 super.onSeekStarted(eventTime)
+                firebaseAnalytics.logEvent("SeekStarted") {
+                    param(FirebaseAnalytics.Param.ITEM_ID, eventTime.windowIndex.toLong())
+                    param(FirebaseAnalytics.Param.ITEM_NAME, "SeekStarted")
+                    param(FirebaseAnalytics.Param.CONTENT_TYPE, "PlayerControl")
+                    param(FirebaseAnalytics.Param.VALUE, eventTime.currentPlaybackPositionMs)
+                }
                 Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 

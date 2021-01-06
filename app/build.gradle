@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -53,7 +54,12 @@ dependencies {
     implementation "co.innoplayer:innoplayer-ima:0.3.0"
     implementation "co.innoplayer:innoplayer-chromecast:0.3.0"
 
-    implementation 'androidx.multidex:multidex:2.0.1'
+//    testImplementation "org.robolectric:robolectric:4.4"
+    //=========== end additional for aar only
+
+//    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
