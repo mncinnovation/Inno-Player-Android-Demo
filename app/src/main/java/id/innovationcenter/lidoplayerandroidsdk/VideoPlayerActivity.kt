@@ -120,7 +120,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                 audioSessionId: Int
             ) {
                 super.onAudioSessionId(eventTime, audioSessionId)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onAudioUnderrun(
@@ -130,7 +130,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                 elapsedSinceLastFeedMs: Long
             ) {
                 super.onAudioUnderrun(eventTime, bufferSize, bufferSizeMs, elapsedSinceLastFeedMs)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onBandwidthEstimate(
@@ -145,7 +145,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                     totalBytesLoaded,
                     bitrateEstimate
                 )
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onDecoderDisabled(
@@ -154,26 +154,27 @@ class VideoPlayerActivity : AppCompatActivity() {
                 decoderCounters: DecoderCounters
             ) {
                 super.onDecoderDisabled(eventTime, trackType, decoderCounters)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
+
             override fun onDecoderEnabled(
                 eventTime: AnalyticsListener.EventTime,
                 trackType: Int,
-                decoderCounters: co.innoplayer.decoder.DecoderCounters
+                decoderCounters: DecoderCounters
             ) {
                 super.onDecoderEnabled(eventTime, trackType, decoderCounters)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
                 super.onSeekStarted(eventTime)
-                firebaseAnalytics.logEvent("SeekStarted") {
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
                     param(FirebaseAnalytics.Param.ITEM_ID, eventTime.windowIndex.toLong())
                     param(FirebaseAnalytics.Param.ITEM_NAME, "SeekStarted")
                     param(FirebaseAnalytics.Param.CONTENT_TYPE, "PlayerControl")
                     param(FirebaseAnalytics.Param.VALUE, eventTime.currentPlaybackPositionMs)
                 }
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onDecoderInitialized(
@@ -188,7 +189,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                     decoderName,
                     initializationDurationMs
                 )
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onDecoderInputFormatChanged(
@@ -197,21 +198,23 @@ class VideoPlayerActivity : AppCompatActivity() {
                 format: co.innoplayer.Format
             ) {
                 super.onDecoderInputFormatChanged(eventTime, trackType, format)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
+
             override fun onTracksChanged(
                 eventTime: AnalyticsListener.EventTime,
                 trackGroups: co.innoplayer.source.TrackGroupArray
             ) {
                 super.onTracksChanged(eventTime, trackGroups)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
+
             override fun onShuffleModeChanged(
                 eventTime: AnalyticsListener.EventTime,
                 shuffleModeEnabled: Boolean
             ) {
                 super.onShuffleModeChanged(eventTime, shuffleModeEnabled)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
 
             override fun onAudioAttributesChanged(
@@ -219,7 +222,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                 audioAttributes: co.innoplayer.audio.AudioAttributes
             ) {
                 super.onAudioAttributesChanged(eventTime, audioAttributes)
-                Log.e(TAG,"currenttime: ${eventTime.currentPlaybackPositionMs}")
+                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
             }
         })
 //        setIconController()

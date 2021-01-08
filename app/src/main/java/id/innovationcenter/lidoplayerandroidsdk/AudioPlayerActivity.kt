@@ -1,27 +1,51 @@
 package id.innovationcenter.lidoplayerandroidsdk
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import co.innoplayer.configuration.PlayerConfig
 import co.innoplayer.core.utils.MediaSourceUtils
 import co.innoplayer.events.ErrorEvent
 import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
 import co.innoplayer.media.playlists.PlaylistItem
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.dynamite.DynamiteModule
 
 import kotlinx.android.synthetic.main.activity_audio_player.*
 
 class AudioPlayerActivity : AppCompatActivity() {
     val TAG = "CLIENTAPP"
     lateinit var playerConfig: PlayerConfig
+    private var castContext: CastContext? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (isGoogleApiAvailable(this)) {
+            try {
+                castContext = CastContext.getSharedInstance(this)
+            } catch (e: RuntimeException) {
+                var cause = e.cause
+                while (cause != null) {
+                    if (cause is DynamiteModule.LoadingException) {
+                        setContentView(R.layout.cast_context_error)
+                        return
+                    }
+                    cause = cause.cause
+                }
+                e.printStackTrace()
+                throw e
+            }
+        }
         setContentView(R.layout.activity_audio_player)
 
         lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
@@ -32,7 +56,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
             override fun onBufferChange(isLoading: Boolean) {
-                Log.e(TAG,"onBuffer change: $isLoading")
+                Log.e(TAG, "onBuffer change: $isLoading")
             }
 
         })
@@ -43,7 +67,8 @@ class AudioPlayerActivity : AppCompatActivity() {
             }
         })
 
-        lidoPlayerView.addOnPlayerStateEndListener(object : VideoPlayerEvents.OnPlayerStateEndListener {
+        lidoPlayerView.addOnPlayerStateEndListener(object :
+            VideoPlayerEvents.OnPlayerStateEndListener {
             override fun onPlayerStateEnd(playWhenReady: Boolean) {
                 Log.e(TAG, "playerStateEnd: $playWhenReady")
             }
@@ -82,6 +107,37 @@ class AudioPlayerActivity : AppCompatActivity() {
         setIconController()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+
+        menuInflater.inflate(R.menu.menu_cast, menu)
+        CastButtonFactory.setUpMediaRouteButton(this, menu, R.id.media_route_menu_item)
+
+        return true
+    }
+
+    // Without the Google API's Chromecast won't work
+    private fun isGoogleApiAvailable(context: Context): Boolean {
+        val isOldPlayStoreInstalled: Boolean =
+            doesPackageExist("com.google.market")
+        val isNewPlayStoreInstalled: Boolean =
+            doesPackageExist("com.android.vending")
+        val isPlaystoreInstalled =
+            isNewPlayStoreInstalled || isOldPlayStoreInstalled
+        val isGoogleApiAvailable = GoogleApiAvailability.getInstance()
+            .isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
+        return isPlaystoreInstalled && isGoogleApiAvailable
+    }
+
+    private fun doesPackageExist(targetPackage: String): Boolean {
+        try {
+            packageManager.getPackageInfo(targetPackage, PackageManager.GET_META_DATA)
+        } catch (e: PackageManager.NameNotFoundException) {
+            return false
+        }
+        return true
+    }
+
     private fun setIconController() {
         lidoPlayerView.setPlayIcon(
             iconColor =
@@ -93,7 +149,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         val playlists = mutableListOf<PlaylistItem>()
 
-        if(intent.extras != null)
+        if (intent.extras != null)
             playlists.addAll(
                 intent.getSerializableExtra("playlistItems") as List<PlaylistItem>
             )
