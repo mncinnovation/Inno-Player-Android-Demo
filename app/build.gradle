@@ -40,22 +40,17 @@ repositories {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation(name: 'innoplayer-core-release10', ext: 'aar')
-//    implementation(name: 'innoplayer-common-release10', ext: 'aar')
-//    implementation(name: 'innoplayer-ima-release10', ext: 'aar')
-//    implementation(name: 'innoplayer-chromecast-release10', ext: 'aar')
+    implementation(name: 'MncDigitalAnalytics-1.0.6', ext: 'aar')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 
-    implementation "co.innoplayer:innoplayer-core:0.3.0"
-    implementation "co.innoplayer:innoplayer-common:0.3.0"
-    implementation "co.innoplayer:innoplayer-ima:0.3.0"
-    implementation "co.innoplayer:innoplayer-chromecast:0.3.0"
+    implementation "co.innoplayer:innoplayer-core:0.4.0"
+    implementation "co.innoplayer:innoplayer-common:0.4.0"
+    implementation "co.innoplayer:innoplayer-ima:0.4.0"
+    implementation "co.innoplayer:innoplayer-chromecast:0.4.0"
 
-//    testImplementation "org.robolectric:robolectric:4.4"
-    //=========== end additional for aar only
 
 //    implementation 'androidx.multidex:multidex:2.0.1'
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
