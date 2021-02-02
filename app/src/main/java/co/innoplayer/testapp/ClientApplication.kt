@@ -1,4 +1,4 @@
-package id.innovationcenter.lidoplayerandroidsdk
+package co.innoplayer.testapp
 
 import android.app.Application
 import android.content.Context
