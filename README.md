@@ -19,8 +19,8 @@
 
 * Android Studio
 * Android 4.1 (API level 16)
-* LidoPlayer Android SDK
-* LidoPlayer license key
+* InnoPlayer Android SDK
+* InnoPlayer license key
 
 ## Documentation
 
