@@ -15,21 +15,26 @@ import co.innoplayer.events.ErrorEvent
 import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
 import co.innoplayer.media.playlists.PlaylistItem
+import co.innoplayer.testapp.databinding.ActivityAudioPlayerBinding
+import co.innoplayer.testapp.databinding.CastContextErrorBinding
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.dynamite.DynamiteModule
 
-import kotlinx.android.synthetic.main.activity_audio_player.*
-
 class AudioPlayerActivity : AppCompatActivity() {
     val TAG = "CLIENTAPP"
     lateinit var playerConfig: PlayerConfig
     private var castContext: CastContext? = null
+    lateinit var binding: ActivityAudioPlayerBinding
+    lateinit var bindingCastContextError: CastContextErrorBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
+        bindingCastContextError = CastContextErrorBinding.inflate(layoutInflater)
+
         if (isGoogleApiAvailable(this)) {
             try {
                 castContext = CastContext.getSharedInstance(this)
@@ -37,7 +42,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                 var cause = e.cause
                 while (cause != null) {
                     if (cause is DynamiteModule.LoadingException) {
-                        setContentView(R.layout.cast_context_error)
+                        setContentView(bindingCastContextError.root)
                         return
                     }
                     cause = cause.cause
@@ -46,61 +51,49 @@ class AudioPlayerActivity : AppCompatActivity() {
                 throw e
             }
         }
-        setContentView(R.layout.activity_audio_player)
+        setContentView(binding.root)
 
-        lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
-            override fun onError(error: ErrorEvent?) {
-                Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
-            }
-        })
+        with(binding){
+            lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
+                override fun onError(error: ErrorEvent?) {
+                    Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
+                }
+            })
 
-        lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
-            override fun onBufferChange(isLoading: Boolean) {
-                Log.e(TAG, "onBuffer change: $isLoading")
-            }
+            lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
+                override fun onBufferChange(isLoading: Boolean) {
+                    Log.e(TAG, "onBuffer change: $isLoading")
+                }
 
-        })
+            })
 
-        lidoPlayerView.addOnDisplayClickListener(object : VideoPlayerEvents.OnDisplayClickListener {
-            override fun onDisplayClick() {
-                Log.e(TAG, "isDisplayClicked")
-            }
-        })
+            lidoPlayerView.addOnDisplayClickListener(object : VideoPlayerEvents.OnDisplayClickListener {
+                override fun onDisplayClick() {
+                    Log.e(TAG, "isDisplayClicked")
+                }
+            })
 
-        lidoPlayerView.addOnPlayerStateEndListener(object :
-            VideoPlayerEvents.OnPlayerStateEndListener {
-            override fun onPlayerStateEnd(playWhenReady: Boolean) {
-                Log.e(TAG, "playerStateEnd: $playWhenReady")
-            }
-        })
+            lidoPlayerView.addOnPlayerStateEndListener(object :
+                VideoPlayerEvents.OnPlayerStateEndListener {
+                override fun onPlayerStateEnd(playWhenReady: Boolean) {
+                    Log.e(TAG, "playerStateEnd: $playWhenReady")
+                }
+            })
 
-        lidoPlayerView.addOnTracksChangeListener(object : VideoPlayerEvents.TracksChangeListener {
-            override fun onTracksChange() {
-                //add logic to do when tracks media has changed
-                //example for check player has next media to play or not by calling playerHasNext() function
-                Log.e(TAG, "trackHasChanged")
-            }
-        })
+            lidoPlayerView.addOnTracksChangeListener(object : VideoPlayerEvents.TracksChangeListener {
+                override fun onTracksChange() {
+                    //add logic to do when tracks media has changed
+                    //example for check player has next media to play or not by calling playerHasNext() function
+                    Log.e(TAG, "trackHasChanged")
+                }
+            })
 
-        lidoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
-            override fun onSeek(seekEvent: SeekEvent) {
-                Log.e(TAG, "Scrub controller at ${seekEvent.position}")
-            }
-//            override fun onScrubMoveStart(position: Long) {
-//                //when scrub progress of player start to move
-//                Log.e(TAG, "Scrub default controller start at $position")
-//            }
-//
-//            override fun onScrubMove(position: Long) {
-//                //when scrub progress of player moving
-//                Log.e(TAG, "Scrub default controller move at $position")
-//            }
-//
-//            override fun onScrubMoveStop(position: Long) {
-//                //when scrub progress of player has stop move
-//                Log.e(TAG, "Scrub default controller stop move at $position")
-//            }
-        })
+            lidoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
+                override fun onSeek(seekEvent: SeekEvent) {
+                    Log.e(TAG, "Scrub controller at ${seekEvent.position}")
+                }
+            })
+        }
 
         initVideo()
 
@@ -139,7 +132,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun setIconController() {
-        lidoPlayerView.setPlayIcon(
+        binding.lidoPlayerView.setPlayIcon(
             iconColor =
             Color.parseColor("#543782")
         )
@@ -164,32 +157,32 @@ class AudioPlayerActivity : AppCompatActivity() {
         )
 
         val mediaSourceUtils = MediaSourceUtils(this)
-        lidoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
+        binding.lidoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
 
         Log.d(TAG, "INIT Video Player")
     }
 
     override fun onResume() {
         super.onResume()
-        lidoPlayerView.onResume()
+        binding.lidoPlayerView.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         //tidak perlu ditambah jika audio player only dan ingin diputar background service
-        if (!lidoPlayerView.isAudioPlayerOnly())
-            lidoPlayerView.onDestroy()
+        if (!binding.lidoPlayerView.isAudioPlayerOnly())
+            binding.lidoPlayerView.onDestroy()
     }
 
     override fun onPause() {
         super.onPause()
         //tidak perlu ditambah jika audio player only dan ingin diputar background service
-        if (!lidoPlayerView.isAudioPlayerOnly())
-            lidoPlayerView.onPause()
+        if (!binding.lidoPlayerView.isAudioPlayerOnly())
+            binding.lidoPlayerView.onPause()
     }
 
     override fun onBackPressed() {
-        if (!lidoPlayerView.onBackPressedIsExitFullscreen())
+        if (!binding.lidoPlayerView.onBackPressedIsExitFullscreen())
             super.onBackPressed()
     }
 }

@@ -23,11 +23,12 @@ import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
 import co.innoplayer.ima.utils.MediaSourceAdsUtils
 import co.innoplayer.media.playlists.PlaylistItem
+import co.innoplayer.testapp.databinding.ActivityVideoPlayerBinding
+import co.innoplayer.testapp.databinding.CastContextErrorBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_video_player.lidoPlayerView
 
 class VideoPlayerActivity : AppCompatActivity() {
     val TAG = "CLIENTAPP"
@@ -35,9 +36,14 @@ class VideoPlayerActivity : AppCompatActivity() {
     private var handlers: Handler? = null
     private var castContext: CastContext? = null
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    lateinit var binding : ActivityVideoPlayerBinding
+    lateinit var bindingCastContextError: CastContextErrorBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityVideoPlayerBinding.inflate(layoutInflater)
+        bindingCastContextError = CastContextErrorBinding.inflate(layoutInflater)
+
         firebaseAnalytics = Firebase.analytics
         if (isGoogleApiAvailable(this)) {
             try {
@@ -46,7 +52,7 @@ class VideoPlayerActivity : AppCompatActivity() {
                 var cause = e.cause
                 while (cause != null) {
                     if (cause is DynamiteModule.LoadingException) {
-                        setContentView(R.layout.cast_context_error)
+                        setContentView(bindingCastContextError.root)
                         return
                     }
                     cause = cause.cause
@@ -55,181 +61,168 @@ class VideoPlayerActivity : AppCompatActivity() {
                 throw e
             }
         }
-        setContentView(R.layout.activity_video_player)
+        setContentView(binding.root)
 
-        lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
-            override fun onError(error: ErrorEvent?) {
-                Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
-            }
-        })
+        with(binding){
+            lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
+                override fun onError(error: ErrorEvent?) {
+                    Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
+                }
+            })
 
-        lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
-            override fun onBufferChange(isLoading: Boolean) {
-                Log.e(TAG, "onBuffer change: $isLoading")
-            }
+            lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
+                override fun onBufferChange(isLoading: Boolean) {
+                    Log.e(TAG, "onBuffer change: $isLoading")
+                }
 
-        })
+            })
 
-        lidoPlayerView.addOnDisplayClickListener(object : VideoPlayerEvents.OnDisplayClickListener {
-            override fun onDisplayClick() {
-                Log.e(TAG, "isDisplayClicked")
-            }
-        })
+            lidoPlayerView.addOnDisplayClickListener(object : VideoPlayerEvents.OnDisplayClickListener {
+                override fun onDisplayClick() {
+                    Log.e(TAG, "isDisplayClicked")
+                }
+            })
 
-        lidoPlayerView.addOnPlayerStateEndListener(object :
-            VideoPlayerEvents.OnPlayerStateEndListener {
-            override fun onPlayerStateEnd(playWhenReady: Boolean) {
-                Log.e(TAG, "playerStateEnd: $playWhenReady")
-            }
-        })
+            lidoPlayerView.addOnPlayerStateEndListener(object :
+                VideoPlayerEvents.OnPlayerStateEndListener {
+                override fun onPlayerStateEnd(playWhenReady: Boolean) {
+                    Log.e(TAG, "playerStateEnd: $playWhenReady")
+                }
+            })
 
-        lidoPlayerView.addOnTracksChangeListener(object : VideoPlayerEvents.TracksChangeListener {
-            override fun onTracksChange() {
-                //add logic to do when tracks media has changed
-                //example for check player has next media to play or not by calling playerHasNext() function
-                Log.e(TAG, "trackHasChanged")
-            }
-        })
+            lidoPlayerView.addOnTracksChangeListener(object : VideoPlayerEvents.TracksChangeListener {
+                override fun onTracksChange() {
+                    //add logic to do when tracks media has changed
+                    //example for check player has next media to play or not by calling playerHasNext() function
+                    Log.e(TAG, "trackHasChanged")
+                }
+            })
 
-        lidoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
-            override fun onSeek(seekEvent: SeekEvent) {
-                Log.e(TAG, "Scrub controller at ${seekEvent.position}")
-            }
-//            override fun onScrubMoveStart(position: Long) {
-//                //when scrub progress of player start to move
-//                Log.e(TAG, "Scrub default controller start at $position")
-//            }
-//
-//            override fun onScrubMove(position: Long) {
-//                //when scrub progress of player moving
-//                Log.e(TAG, "Scrub default controller move at $position")
-//            }
-//
-//            override fun onScrubMoveStop(position: Long) {
-//                //when scrub progress of player has stop move
-//                Log.e(TAG, "Scrub default controller stop move at $position")
-//            }
-        })
+            lidoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
+                override fun onSeek(seekEvent: SeekEvent) {
+                    Log.e(TAG, "Scrub controller at ${seekEvent.position}")
+                }
+            })
+
+            lidoPlayerView.setAnalyticsListener(object : AnalyticsListener {
+                override fun onAudioSessionId(
+                    eventTime: AnalyticsListener.EventTime,
+                    audioSessionId: Int
+                ) {
+                    super.onAudioSessionId(eventTime, audioSessionId)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onAudioUnderrun(
+                    eventTime: AnalyticsListener.EventTime,
+                    bufferSize: Int,
+                    bufferSizeMs: Long,
+                    elapsedSinceLastFeedMs: Long
+                ) {
+                    super.onAudioUnderrun(eventTime, bufferSize, bufferSizeMs, elapsedSinceLastFeedMs)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onBandwidthEstimate(
+                    eventTime: AnalyticsListener.EventTime,
+                    totalLoadTimeMs: Int,
+                    totalBytesLoaded: Long,
+                    bitrateEstimate: Long
+                ) {
+                    super.onBandwidthEstimate(
+                        eventTime,
+                        totalLoadTimeMs,
+                        totalBytesLoaded,
+                        bitrateEstimate
+                    )
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onDecoderDisabled(
+                    eventTime: AnalyticsListener.EventTime,
+                    trackType: Int,
+                    decoderCounters: DecoderCounters
+                ) {
+                    super.onDecoderDisabled(eventTime, trackType, decoderCounters)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onDecoderEnabled(
+                    eventTime: AnalyticsListener.EventTime,
+                    trackType: Int,
+                    decoderCounters: DecoderCounters
+                ) {
+                    super.onDecoderEnabled(eventTime, trackType, decoderCounters)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
+                    super.onSeekStarted(eventTime)
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                        param(FirebaseAnalytics.Param.ITEM_ID, eventTime.windowIndex.toLong())
+                        param(FirebaseAnalytics.Param.ITEM_NAME, "SeekStarted")
+                        param(FirebaseAnalytics.Param.CONTENT_TYPE, "PlayerControl")
+                        param(FirebaseAnalytics.Param.VALUE, eventTime.currentPlaybackPositionMs)
+                    }
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onDecoderInitialized(
+                    eventTime: AnalyticsListener.EventTime,
+                    trackType: Int,
+                    decoderName: String,
+                    initializationDurationMs: Long
+                ) {
+                    super.onDecoderInitialized(
+                        eventTime,
+                        trackType,
+                        decoderName,
+                        initializationDurationMs
+                    )
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onDecoderInputFormatChanged(
+                    eventTime: AnalyticsListener.EventTime,
+                    trackType: Int,
+                    format: co.innoplayer.Format
+                ) {
+                    super.onDecoderInputFormatChanged(eventTime, trackType, format)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onTracksChanged(
+                    eventTime: AnalyticsListener.EventTime,
+                    trackGroups: co.innoplayer.source.TrackGroupArray
+                ) {
+                    super.onTracksChanged(eventTime, trackGroups)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onShuffleModeChanged(
+                    eventTime: AnalyticsListener.EventTime,
+                    shuffleModeEnabled: Boolean
+                ) {
+                    super.onShuffleModeChanged(eventTime, shuffleModeEnabled)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+
+                override fun onAudioAttributesChanged(
+                    eventTime: AnalyticsListener.EventTime,
+                    audioAttributes: co.innoplayer.audio.AudioAttributes
+                ) {
+                    super.onAudioAttributesChanged(eventTime, audioAttributes)
+                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                }
+            })
+        }
 
 
         initVideo()
-
-        lidoPlayerView?.setAnalyticsListener(object : AnalyticsListener {
-            override fun onAudioSessionId(
-                eventTime: AnalyticsListener.EventTime,
-                audioSessionId: Int
-            ) {
-                super.onAudioSessionId(eventTime, audioSessionId)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onAudioUnderrun(
-                eventTime: AnalyticsListener.EventTime,
-                bufferSize: Int,
-                bufferSizeMs: Long,
-                elapsedSinceLastFeedMs: Long
-            ) {
-                super.onAudioUnderrun(eventTime, bufferSize, bufferSizeMs, elapsedSinceLastFeedMs)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onBandwidthEstimate(
-                eventTime: AnalyticsListener.EventTime,
-                totalLoadTimeMs: Int,
-                totalBytesLoaded: Long,
-                bitrateEstimate: Long
-            ) {
-                super.onBandwidthEstimate(
-                    eventTime,
-                    totalLoadTimeMs,
-                    totalBytesLoaded,
-                    bitrateEstimate
-                )
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onDecoderDisabled(
-                eventTime: AnalyticsListener.EventTime,
-                trackType: Int,
-                decoderCounters: DecoderCounters
-            ) {
-                super.onDecoderDisabled(eventTime, trackType, decoderCounters)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onDecoderEnabled(
-                eventTime: AnalyticsListener.EventTime,
-                trackType: Int,
-                decoderCounters: DecoderCounters
-            ) {
-                super.onDecoderEnabled(eventTime, trackType, decoderCounters)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
-                super.onSeekStarted(eventTime)
-                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
-                    param(FirebaseAnalytics.Param.ITEM_ID, eventTime.windowIndex.toLong())
-                    param(FirebaseAnalytics.Param.ITEM_NAME, "SeekStarted")
-                    param(FirebaseAnalytics.Param.CONTENT_TYPE, "PlayerControl")
-                    param(FirebaseAnalytics.Param.VALUE, eventTime.currentPlaybackPositionMs)
-                }
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onDecoderInitialized(
-                eventTime: AnalyticsListener.EventTime,
-                trackType: Int,
-                decoderName: String,
-                initializationDurationMs: Long
-            ) {
-                super.onDecoderInitialized(
-                    eventTime,
-                    trackType,
-                    decoderName,
-                    initializationDurationMs
-                )
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onDecoderInputFormatChanged(
-                eventTime: AnalyticsListener.EventTime,
-                trackType: Int,
-                format: co.innoplayer.Format
-            ) {
-                super.onDecoderInputFormatChanged(eventTime, trackType, format)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onTracksChanged(
-                eventTime: AnalyticsListener.EventTime,
-                trackGroups: co.innoplayer.source.TrackGroupArray
-            ) {
-                super.onTracksChanged(eventTime, trackGroups)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onShuffleModeChanged(
-                eventTime: AnalyticsListener.EventTime,
-                shuffleModeEnabled: Boolean
-            ) {
-                super.onShuffleModeChanged(eventTime, shuffleModeEnabled)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-
-            override fun onAudioAttributesChanged(
-                eventTime: AnalyticsListener.EventTime,
-                audioAttributes: co.innoplayer.audio.AudioAttributes
-            ) {
-                super.onAudioAttributesChanged(eventTime, audioAttributes)
-                Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-            }
-        })
-//        setIconController()
     }
 
     private fun setIconController() {
-        lidoPlayerView.setPlayIcon(
+        binding.lidoPlayerView.setPlayIcon(
             iconColor =
             Color.parseColor("#543782")
         )
@@ -277,7 +270,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         )
 
         val mediaSourceUtils = MediaSourceAdsUtils(this)
-        lidoPlayerView.setup(
+        binding.lidoPlayerView.setup(
             playerConfig,
             this,
             mediaSourceUtils,
@@ -305,19 +298,19 @@ class VideoPlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         //tidak perlu ditambah jika audio player only dan ingin diputar background service
-        if (!lidoPlayerView.isAudioPlayerOnly())
-            lidoPlayerView.onDestroy()
+        if (!binding.lidoPlayerView.isAudioPlayerOnly())
+            binding.lidoPlayerView.onDestroy()
     }
 
     override fun onPause() {
         super.onPause()
         //tidak perlu ditambah jika audio player only dan ingin diputar background service
-        if (!lidoPlayerView.isAudioPlayerOnly())
-            lidoPlayerView.onPause()
+        if (!binding.lidoPlayerView.isAudioPlayerOnly())
+            binding.lidoPlayerView.onPause()
     }
 
     override fun onBackPressed() {
-        if (!lidoPlayerView.onBackPressedIsExitFullscreen())
+        if (!binding.lidoPlayerView.onBackPressedIsExitFullscreen())
             super.onBackPressed()
     }
 

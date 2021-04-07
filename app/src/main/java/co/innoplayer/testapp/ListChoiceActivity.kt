@@ -14,7 +14,7 @@ import co.innoplayer.core.repository.model.feature.Feature
 import co.innoplayer.media.captions.MimeTypeSubtitle
 import co.innoplayer.media.captions.SubtitleInfo
 import co.innoplayer.media.playlists.PlaylistItem
-import kotlinx.android.synthetic.main.activity_list_choice.*
+import co.innoplayer.testapp.databinding.ActivityListChoiceBinding
 import java.io.Serializable
 
 class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialListener {
@@ -24,10 +24,12 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
     lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
     private var listChild: HashMap<String, List<List<PlaylistItem>>> = HashMap()
+    lateinit var binding: ActivityListChoiceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list_choice)
+        binding = ActivityListChoiceBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         InnoPlayerSDK().init(
             this, this,
@@ -45,8 +47,8 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         prepareListData()
         listAdapter = ChoiceExpandableListAdapter(this, listHeader, listChild)
 
-        expandableListView.setAdapter(listAdapter)
-        expandableListView.setOnChildClickListener { _, _, p2, p3, _ ->
+        binding.expandableListView.setAdapter(listAdapter)
+        binding.expandableListView.setOnChildClickListener { _, _, p2, p3, _ ->
             val playlistItem = listChild[listHeader[p2]]?.get(p3) as List<PlaylistItem>
 
             var intent = Intent(this, VideoPlayerActivity::class.java)
