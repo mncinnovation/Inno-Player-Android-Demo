@@ -53,34 +53,37 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
 
-        with(binding){
-            lidoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
+        with(binding) {
+            innoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
                 override fun onError(error: ErrorEvent?) {
                     Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
                 }
             })
 
-            lidoPlayerView.addOnBufferChangeListener(object : VideoPlayerEvents.OnBufferChangeListener {
+            innoPlayerView.addOnBufferChangeListener(object :
+                VideoPlayerEvents.OnBufferChangeListener {
                 override fun onBufferChange(isLoading: Boolean) {
                     Log.e(TAG, "onBuffer change: $isLoading")
                 }
 
             })
 
-            lidoPlayerView.addOnDisplayClickListener(object : VideoPlayerEvents.OnDisplayClickListener {
+            innoPlayerView.addOnDisplayClickListener(object :
+                VideoPlayerEvents.OnDisplayClickListener {
                 override fun onDisplayClick() {
                     Log.e(TAG, "isDisplayClicked")
                 }
             })
 
-            lidoPlayerView.addOnPlayerStateEndListener(object :
+            innoPlayerView.addOnPlayerStateEndListener(object :
                 VideoPlayerEvents.OnPlayerStateEndListener {
                 override fun onPlayerStateEnd(playWhenReady: Boolean) {
                     Log.e(TAG, "playerStateEnd: $playWhenReady")
                 }
             })
 
-            lidoPlayerView.addOnTracksChangeListener(object : VideoPlayerEvents.TracksChangeListener {
+            innoPlayerView.addOnTracksChangeListener(object :
+                VideoPlayerEvents.TracksChangeListener {
                 override fun onTracksChange() {
                     //add logic to do when tracks media has changed
                     //example for check player has next media to play or not by calling playerHasNext() function
@@ -88,7 +91,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                 }
             })
 
-            lidoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
+            innoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
                 override fun onSeek(seekEvent: SeekEvent) {
                     Log.e(TAG, "Scrub controller at ${seekEvent.position}")
                 }
@@ -132,7 +135,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun setIconController() {
-        binding.lidoPlayerView.setPlayIcon(
+        binding.innoPlayerView.setPlayIcon(
             iconColor =
             Color.parseColor("#543782")
         )
@@ -157,32 +160,28 @@ class AudioPlayerActivity : AppCompatActivity() {
         )
 
         val mediaSourceUtils = MediaSourceUtils(this)
-        binding.lidoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
+        binding.innoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
 
         Log.d(TAG, "INIT Video Player")
     }
 
     override fun onResume() {
         super.onResume()
-        binding.lidoPlayerView.onResume()
+        binding.innoPlayerView.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        //tidak perlu ditambah jika audio player only dan ingin diputar background service
-        if (!binding.lidoPlayerView.isAudioPlayerOnly())
-            binding.lidoPlayerView.onDestroy()
+        binding.innoPlayerView.onDestroy()
     }
 
     override fun onPause() {
         super.onPause()
-        //tidak perlu ditambah jika audio player only dan ingin diputar background service
-        if (!binding.lidoPlayerView.isAudioPlayerOnly())
-            binding.lidoPlayerView.onPause()
+        binding.innoPlayerView.onPause()
     }
 
     override fun onBackPressed() {
-        if (!binding.lidoPlayerView.onBackPressedIsExitFullscreen())
+        if (!binding.innoPlayerView.onBackPressedIsExitFullscreen())
             super.onBackPressed()
     }
 }

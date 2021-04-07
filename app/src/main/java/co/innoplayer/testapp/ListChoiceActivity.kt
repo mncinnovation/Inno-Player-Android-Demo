@@ -85,11 +85,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         val hls4: MutableList<PlaylistItem> = ArrayList()
         val hlsPlaylistSample = mutableListOf<List<PlaylistItem>>()
 
-        val playlistItem = PlaylistItem.Builder()
-            .file("${DEV_URL_INNO}cdn/videos/la_chute_d_une_plume/index.m3u8")
-            .title("HLS")
-            .build()
-
         hls1.add(
             PlaylistItem(
                 videoID = "BasicHLSVideoDemo",
@@ -219,31 +214,12 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                 file = "https://cdn-stream.metube.co/videom3u8/h8RfOmhxTyaGnZ5JZxKj/index.m3u8"
             )
         )
-//        playlist2.add(
-//            PlaylistItem(
-//                title = "Subtitle1 TTML",
-//                file = "https://html5demos.com/assets/dizzy.mp4",
-//                subtitleUri = "https://storage.googleapis.com/exoplayer-test-media-1/ttml/netflix_ttml_sample.xml",
-//                subtitleMimeType = "application/ttml+xml",
-//                subtitleLanguage = "en"
-//            )
-//        )
-//        playlist2.add(
-//            PlaylistItem(
-//                title = "Subtitle2 SSA/ASS position & alignment",
-//                file = "https://storage.googleapis.com/exoplayer-test-media-1/gen-3/screens/dash-vod-single-segment/video-avc-baseline-480.mp4",
-//                subtitleUri = "https://storage.googleapis.com/exoplayer-test-media-1/ssa/test-subs-position.ass",
-//                subtitleMimeType = "text/x-ssa",
-//                subtitleLanguage = "en"
-//            )
-//        )
 
         val listAds1 = mutableListOf<AdBreak>()
         listAds1.add(
             AdBreak(
                 "PRE",
                 AdSource.IMA,
-//                "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
                 "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=",
                 AdType.LINEAR
             )
@@ -258,7 +234,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                     adMid1[i],
                     AdSource.IMA,
                     "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=",
-//                    "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
                     AdType.LINEAR
                 )
             )
@@ -271,21 +246,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                 AdType.LINEAR
             )
         )
-
-//        playlist2.add(
-//            PlaylistItem(
-//                title = "Scheduled linear preroll, non-linear midroll, linear postroll",
-//                file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-//                scheduledAdsTag = listAds1
-//            )
-//        )
-//        playlist2.add(
-//            PlaylistItem(
-//                title = "VMAP linear preroll, non-linear midroll, linear postroll",
-//                file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-//                adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
-//            )
-//        )
 
         playlist2.add(
             PlaylistItem(
@@ -337,7 +297,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             AdBreak(
                 "PRE",
                 AdSource.IMA,
-//                "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
                 "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=",
                 AdType.LINEAR
             )
@@ -352,7 +311,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                     adMid[i],
                     AdSource.IMA,
                     "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=",
-//                    "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
                     AdType.LINEAR
                 )
             )
@@ -377,7 +335,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             PlaylistItem(
                 title = "VMAP linear preroll, non-linear midroll, linear postroll",
                 file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-//                adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
                 adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/"
                         + "ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp"
                         + "&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite"
@@ -397,14 +354,8 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         listHeader.add("DRM")
         val gts1: MutableList<PlaylistItem> = ArrayList()
-        val gts2: MutableList<PlaylistItem> = ArrayList()
-        val gts3: MutableList<PlaylistItem> = ArrayList()
-        val gts4: MutableList<PlaylistItem> = ArrayList()
-        val gts5: MutableList<PlaylistItem> = ArrayList()
-        val gts6: MutableList<PlaylistItem> = ArrayList()
         val gtsPlaylist = mutableListOf<List<PlaylistItem>>()
         val drmLicenseList = mutableListOf<DrmLicense>()//
-//        drmLicenseList.add(DrmLicense("widevine", "https://proxy.uat.widevine.com/proxy?provider=widevine_test"))
         drmLicenseList.add(DrmLicense("widevine", "https://cwip-shaka-proxy.appspot.com/no_auth"))
         gts1.add(
             PlaylistItem(
@@ -414,26 +365,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                 drmLicenses = drmLicenseList
             )
         )
-//        val drmLicenseList4 = mutableListOf<DrmLicense>()
-//        drmLicenseList4.add(
-//            DrmLicense(
-//                "widevine",
-//                "https://amssamples.keydelivery.mediaservices.windows.net/Widevine/?KID=1ab45440-532c-4399-94dc-5c5ad9584bac"
-//            )
-//        )
-//        drmLicenseList4.add(
-//            DrmLicense(
-//                "playready",
-//                "https://amssamples.keydelivery.mediaservices.windows.net/PlayReady/"
-//            )
-//        )
-//        gts4.add(
-//            PlaylistItem(
-//                title = "Multi DRM",
-//                file = "https://amssamples.streaming.mediaservices.windows.net/622b189f-ec39-43f2-93a2-201ac4e31ce1/BigBuckBunny.ism/manifest(format=mpd-time-csf)",
-//                drmLicenses = drmLicenseList4
-//            )
-//        )
+
         gtsPlaylist.addAll(listOf(gts1))
         listChild[listHeader[5]] = gtsPlaylist
 
@@ -683,17 +615,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         )
         subList.addAll(
             listOf(
-//                sub1,
-//                sub2,
-//                sub3,
-//                sub4,
-//                sub5,
-//                sub6,
-//                sub7,
-//                sub8,
-//                sub9,
-//                sub10,
-//                sub11,
                 sub0
             )
         )
@@ -886,9 +807,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         srtList.addAll(
             listOf(
-//            srt1,
-//                srt2
-//                , srt3, srt4, srt5, srt6, srt7, srt8, srt9, srt10,
                 srt0
             )
         )
@@ -1082,8 +1000,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         )
         vttList.addAll(
             listOf(
-//                vtt1, vtt2, vtt3, vtt4, vtt5, vtt6,
-//                vtt7, vtt8, vtt9, vtt10,
                 vtt11
             )
         )
