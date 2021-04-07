@@ -83,6 +83,11 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         val hls4: MutableList<PlaylistItem> = ArrayList()
         val hlsPlaylistSample = mutableListOf<List<PlaylistItem>>()
 
+        val playlistItem = PlaylistItem.Builder()
+            .file("${DEV_URL_INNO}cdn/videos/la_chute_d_une_plume/index.m3u8")
+            .title("HLS")
+            .build()
+
         hls1.add(
             PlaylistItem(
                 videoID = "BasicHLSVideoDemo",

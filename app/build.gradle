@@ -44,12 +44,12 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
 
-    implementation "co.innoplayer:innoplayer-core:0.4.0"
-    implementation "co.innoplayer:innoplayer-common:0.4.0"
-    implementation "co.innoplayer:innoplayer-ima:0.4.0"
-    implementation "co.innoplayer:innoplayer-chromecast:0.4.0"
+    implementation "co.innoplayer:innoplayer-core:0.4.5"
+    implementation "co.innoplayer:innoplayer-common:0.4.5"
+    implementation "co.innoplayer:innoplayer-ima:0.4.5"
+    implementation "co.innoplayer:innoplayer-chromecast:0.4.5"
 
 
 //    implementation 'androidx.multidex:multidex:2.0.1'
