@@ -11,20 +11,27 @@ import co.innoplayer.media.ads.AdSource
 import co.innoplayer.media.ads.AdType
 import co.innoplayer.media.drm.DrmLicense
 import co.innoplayer.core.repository.model.feature.Feature
+import co.innoplayer.events.InnoError
+import co.innoplayer.media.ads.AdTypeSource
+import co.innoplayer.media.captions.Caption
+import co.innoplayer.media.captions.CaptionType
 import co.innoplayer.media.captions.MimeTypeSubtitle
-import co.innoplayer.media.captions.SubtitleInfo
 import co.innoplayer.media.playlists.PlaylistItem
 import co.innoplayer.testapp.databinding.ActivityListChoiceBinding
 import java.io.Serializable
 
 class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialListener {
     val TAG = "CLIENTAPP"
-    val PROD_URL_INNO = "https://innoplayer.co/"
-    val DEV_URL_INNO = "https://nyoba.innoplayer.co/"
+    val URL_INNO = "https://innoplayer.co/"
     lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
     private var listChild: HashMap<String, List<List<PlaylistItem>>> = HashMap()
     lateinit var binding: ActivityListChoiceBinding
+
+    //prod
+    val key = "42ef1e0bf5d4641449ebc9a00993c8ed5bcecf588e7c64fb2322f91b95859a7d"
+    //dev
+//    val key = "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +40,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         InnoPlayerSDK().init(
             this, this,
-            "ExoPlayerDemo", "f230a20ffa2bc9d33f18fc0444ef95106f2f903bbfaf30a45b15c60619f8d70b",
+            "Inno Player Demo", key,
             this
         )
 
@@ -41,7 +48,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             this,
             "Fw2EgY5ZdYS9XrBkxEJMBXm3AcjB0Lq4gZuSmZUht94wXQlM",
             null,
-            "ExoPlayerDemo"
+            "InnoPlayerDemo"
         )
 
         prepareListData()
@@ -87,15 +94,15 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         hls1.add(
             PlaylistItem(
-                videoID = "BasicHLSVideoDemo",
+                mediaId = "BasicHLSVideoDemo",
                 category = "Basic",
                 title = "HLS",
-                file = "${DEV_URL_INNO}cdn/videos/la_chute_d_une_plume/index.m3u8"
+                file = "${URL_INNO}cdn/videos/la_chute_d_une_plume/index.m3u8"
             )
         )
         hls2.add(
             PlaylistItem(
-                videoID = "BasicMPEG-DASHVideoDemo",
+                mediaId = "BasicMPEG-DASHVideoDemo",
                 category = "Basic",
                 title = "MPEG-DASH",
                 file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
@@ -103,27 +110,37 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         )
         hls3.add(
             PlaylistItem(
-                videoID = "BasicHLSCMAFVideoDemo",
+                mediaId = "BasicHLSCMAFVideoDemo",
                 category = "Basic",
                 title = "HLS (CMAF)",
-                file = "${DEV_URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264_master.m3u8"
+                file = "${URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264_master.m3u8"
             )
         )
         hls4.add(
             PlaylistItem(
-                videoID = "BasicMPEG-DASHCMAFVideoDemo",
+                mediaId = "BasicMPEG-DASHCMAFVideoDemo",
                 category = "Basic",
                 title = "MPEG-DASH (CMAF)",
-                file = "${DEV_URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264.mpd"
+                file = "${URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264.mpd"
             )
         )
+
+        val thumbnailTrack = mutableListOf<Caption>()
+        thumbnailTrack.clear()
+        thumbnailTrack.add(
+            Caption(
+                "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg",
+                CaptionType.THUMBNAILS
+            )
+        )
+
         hls5.add(
             PlaylistItem(
-                videoID = "BasicPreviewThumbnailsVideoDemo",
+                mediaId = "BasicPreviewThumbnailsVideoDemo",
                 title = "Preview Thumbnails",
                 category = "Basic",
                 file = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd",
-                urlThumbnails = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg"
+                tracks = thumbnailTrack
             )
         )
         hlsPlaylistSample.addAll(listOf(hls1, hls2, hls3, hls4, hls5))
@@ -160,7 +177,8 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         audio1.add(
             PlaylistItem(
                 title = "MP3",
-                file = "${DEV_URL_INNO}cdn/audios/ES_Cocoona.mp3",
+//                file = "${URL_INNO}cdn/audios/ES_Cocoona.mp3",
+                file = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                 image = "https://upload.wikimedia.org/wikipedia/commons/5/5e/MP3_logo.png",
                 description = "SoundHelix Sound"
             )
@@ -169,21 +187,21 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         audio2.add(
             PlaylistItem(
                 title = "AAC",
-                file = "${DEV_URL_INNO}cdn/audios/ES_Cocoona.aac",
+                file = "${URL_INNO}cdn/audios/ES_Cocoona.aac",
                 description = "AAC Sample Sound"
             )
         )
         audio3.add(
             PlaylistItem(
                 title = "OGG Vorbis",
-                file = "${DEV_URL_INNO}cdn/audios/ES_Cocoona.ogg",
+                file = "${URL_INNO}cdn/audios/ES_Cocoona.ogg",
                 description = "OGG Vorbis Sample Sound"
             )
         )
         audio4.add(
             PlaylistItem(
                 title = "Opus",
-                file = "${DEV_URL_INNO}cdn/audios/ES_Cocoona.opus",
+                file = "${URL_INNO}cdn/audios/ES_Cocoona.opus",
                 description = "Opus Sample Sound"
             )
         )
@@ -251,52 +269,74 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             PlaylistItem(
                 title = "Preview Thumbnails",
                 file = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd",
-                urlThumbnails = "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg"
+                tracks = thumbnailTrack
             )
         )
         playlist2.add(
             PlaylistItem(
                 title = "MPEG-DASH",
-                file = "${DEV_URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd"
+                file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
             )
         )
         playlistList.addAll(listOf(playlist2))
         listChild[listHeader[3]] = playlistList
 
         listHeader.add("Advertising - Google IMA SDK")
+        val ima0: MutableList<PlaylistItem> = ArrayList()
         val ima1: MutableList<PlaylistItem> = ArrayList()
         val ima2: MutableList<PlaylistItem> = ArrayList()
         val ima3: MutableList<PlaylistItem> = ArrayList()
         val ima4: MutableList<PlaylistItem> = ArrayList()
         val ima5: MutableList<PlaylistItem> = ArrayList()
-        val ima6: MutableList<PlaylistItem> = ArrayList()
         val imaPlaylist = mutableListOf<List<PlaylistItem>>()
-        ima1.add(
+        val listAds = mutableListOf<AdBreak>()
+        listAds.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator="))
+        ima0.add(
             PlaylistItem(
-                title = "Linear Preload Ad",
+                mediaId = "ads-linearskipable",
+                title = "Linear Preload Ad Skipable",
+                category = "ads",
                 file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-                adTag = "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="
+                adSchedule = listAds,
+                adTypeSource = AdTypeSource.VAST
             )
         )
-        ima6.add(
+
+        val listAds2 = mutableListOf<AdBreak>()
+        listAds2.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="))
+        ima1.add(
             PlaylistItem(
-                title = "Linear Preload Ad Skipable",
+                mediaId = "ads-linear",
+                title = "Linear Preload Ad",
+                category = "ads",
                 file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-                adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator="
+                adSchedule = listAds2,
+                adTypeSource = AdTypeSource.VAST
+            )
+        )
+
+        val listAds3 = mutableListOf<AdBreak>()
+        listAds3.add(
+            AdBreak(
+                tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
+                adType = AdType.NONLINEAR
             )
         )
         ima2.add(
             PlaylistItem(
+                mediaId = "ads-nonlinear",
                 title = "Non Linear Ad",
+                category = "ads",
                 file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-                adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator="
+                adSchedule = listAds3
             )
         )
-        val listAds = mutableListOf<AdBreak>()
-        listAds.add(
+        val listAds4 = mutableListOf<AdBreak>()
+        listAds4.add(
             AdBreak(
                 "PRE",
                 AdSource.IMA,
+//                "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
                 "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=",
                 AdType.LINEAR
             )
@@ -306,7 +346,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         )
 
         for (i in adMid.indices) {
-            listAds.add(
+            listAds4.add(
                 AdBreak(
                     adMid[i],
                     AdSource.IMA,
@@ -315,7 +355,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                 )
             )
         }
-        listAds.add(
+        listAds4.add(
             AdBreak(
                 "POST",
                 AdSource.IMA,
@@ -326,30 +366,49 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         ima3.add(
             PlaylistItem(
+                mediaId = "ads-schedule",
                 title = "Scheduled linear preroll, non-linear midroll, linear postroll",
                 file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-                scheduledAdsTag = listAds
+                category = "ads",
+                adSchedule = listAds4,
+                adTypeSource = AdTypeSource.VMAP
             )
         )
-        ima4.add(
-            PlaylistItem(
-                title = "VMAP linear preroll, non-linear midroll, linear postroll",
-                file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-                adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/"
+        val listAds5 = mutableListOf<AdBreak>()
+
+        listAds5.add(
+            AdBreak(
+                tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/"
                         + "ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp"
                         + "&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite"
                         + "%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator="
             )
         )
+        ima4.add(
+            PlaylistItem(
+                mediaId = "ads-vmap",
+                title = "VMAP linear preroll, non-linear midroll, linear postroll",
+                file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
+                category = "ads",
+                adSchedule = listAds5,
+                adTypeSource = AdTypeSource.VMAP
+            )
+        )
+        val listAds6 = mutableListOf<AdBreak>()
+
+        listAds6.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinearvpaid2js&correlator="))
         ima5.add(
             PlaylistItem(
+                mediaId = "ads-vpaid",
                 title = "VPAID",
                 file = "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv",
-                adTag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinearvpaid2js&correlator="
+                category = "ads",
+                adSchedule = listAds6,
+                adTypeSource = AdTypeSource.VPAID
             )
         )
 
-        imaPlaylist.addAll(listOf(ima1, ima2, ima3, ima4, ima5, ima6))
+        imaPlaylist.addAll(listOf(ima0, ima1, ima2, ima3, ima4, ima5))
         listChild[listHeader[4]] = imaPlaylist
 
         listHeader.add("DRM")
@@ -360,7 +419,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         gts1.add(
             PlaylistItem(
                 title = "Widevine",//https://storage.googleapis.com/wvmedia/cbc1/h264/tears/tears_aes_cbc1.mpd
-//                file = "https://storage.googleapis.com/wvmedia/cbc1/h264/tears/tears_aes_cbc1.mpd",
                 file = "https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd",
                 drmLicenses = drmLicenseList
             )
@@ -414,205 +472,99 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         listHeader.add("Subtitles TTML Out of stream")
         val sub0: MutableList<PlaylistItem> = ArrayList()
-        val sub1: MutableList<PlaylistItem> = ArrayList()
-        val sub2: MutableList<PlaylistItem> = ArrayList()
-        val sub3: MutableList<PlaylistItem> = ArrayList()
-        val sub4: MutableList<PlaylistItem> = ArrayList()
-        val sub5: MutableList<PlaylistItem> = ArrayList()
-        val sub6: MutableList<PlaylistItem> = ArrayList()
-        val sub7: MutableList<PlaylistItem> = ArrayList()
-        val sub8: MutableList<PlaylistItem> = ArrayList()
-        val sub9: MutableList<PlaylistItem> = ArrayList()
-        val sub10: MutableList<PlaylistItem> = ArrayList()
-        val sub11: MutableList<PlaylistItem> = ArrayList()
         val subList = mutableListOf<List<PlaylistItem>>()
 
-        val listSubtTTML = mutableListOf<SubtitleInfo>()
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml",
-                mimeType = MimeTypeSubtitle.TTML.value,
-                language = "en"
-            )
-        )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-es.ttml",
+        val captionTracks = mutableListOf<Caption>()
+        val captionEn = Caption.Builder()
+            .file("${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
+            .language("en")
+            .label("English")
+            .kind(CaptionType.CAPTIONS)
+            .mimeType(MimeTypeSubtitle.TTML.value)
+            .isdefault(true)
+            .build()
+        captionTracks.add(captionEn)
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-es.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "es"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-fr-Goofy.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-fr-Goofy.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "fr"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-de.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-de.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "de"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-it.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-it.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "it"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-ru.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-ru.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "ru"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-no.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-no.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "no"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-JP.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-JP.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "jp"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-Indonesian.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-Indonesian.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "in"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-Persian.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-Persian.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "pe"
             )
         )
-        listSubtTTML.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-CH.ttml",
+        captionTracks.add(
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-CH.ttml",
                 mimeType = MimeTypeSubtitle.TTML.value,
                 language = "ch"
             )
         )
         val videoSourceSubtitle =
-            "${DEV_URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd"
+            "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
+
         sub0.add(
             PlaylistItem(
                 title = "TTML All Selection",
                 file = videoSourceSubtitle,
-                subtitleList = listSubtTTML
+                tracks = captionTracks
             )
         )
-        sub1.add(
-            PlaylistItem(
-                title = "TTML English",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "en",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml"
-            )
-        )
-        sub2.add(
-            PlaylistItem(
-                title = "TTML Spanish",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "es",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-es.ttml"
-            )
-        )
-        sub3.add(
-            PlaylistItem(
-                title = "TTML French",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "fr",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-fr-Goofy.ttml"
-            )
-        )
-        sub4.add(
-            PlaylistItem(
-                title = "TTML Dutch",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "de",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-de.ttml"
-            )
-        )
-        sub5.add(
-            PlaylistItem(
-                title = "TTML Italian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "it",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-it.ttml"
-            )
-        )
-        sub6.add(
-            PlaylistItem(
-                title = "TTML Russian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "ru",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-ru.ttml"
-            )
-        )
-        sub7.add(
-            PlaylistItem(
-                title = "TTML Norwegian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "no",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-no.ttml"
-            )
-        )
-        sub8.add(
-            PlaylistItem(
-                title = "TTML Japanese",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "jp",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-JP.ttml"
-            )
-        )
-        sub9.add(
-            PlaylistItem(
-                title = "TTML Indonesian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "in",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-Indonesian.ttml"
-            )
-        )
-        sub10.add(
-            PlaylistItem(
-                title = "TTML Persian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "pe",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-Persian.ttml"
-            )
-        )
-        sub11.add(
-            PlaylistItem(
-                title = "TTML Chinese",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "ch",
-                subtitleMimeType = MimeTypeSubtitle.TTML.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-CH.ttml"
-            )
-        )
+
         subList.addAll(
             listOf(
                 sub0
@@ -622,85 +574,75 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         listHeader.add("Subtitles SRT Out of stream")
         val srt0: MutableList<PlaylistItem> = ArrayList()
-        val srt1: MutableList<PlaylistItem> = ArrayList()
-        val srt2: MutableList<PlaylistItem> = ArrayList()
-        val srt3: MutableList<PlaylistItem> = ArrayList()
-        val srt4: MutableList<PlaylistItem> = ArrayList()
-        val srt5: MutableList<PlaylistItem> = ArrayList()
-        val srt6: MutableList<PlaylistItem> = ArrayList()
-        val srt7: MutableList<PlaylistItem> = ArrayList()
-        val srt8: MutableList<PlaylistItem> = ArrayList()
-        val srt9: MutableList<PlaylistItem> = ArrayList()
-        val srt10: MutableList<PlaylistItem> = ArrayList()
         val srtList = mutableListOf<List<PlaylistItem>>()
 
-        val listSubtSRT = mutableListOf<SubtitleInfo>()
+        val listSubtSRT = mutableListOf<Caption>()
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "en"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "es"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "fr"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "de"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "it"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "ru"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "no"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "jp"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "in"
             )
         )
         listSubtSRT.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt",
                 mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                 language = "pe"
             )
@@ -710,100 +652,10 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             PlaylistItem(
                 title = "SRT All Selection",
                 file = videoSourceSubtitle,
-                subtitleList = listSubtSRT
-            )
-        )
-        srt1.add(
-            PlaylistItem(
-                title = "SRT English",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "en",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt"
-            )
-        )
-        srt2.add(
-            PlaylistItem(
-                title = "SRT Spanish",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "es",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt"
-            )
-        )
-        srt3.add(
-            PlaylistItem(
-                title = "SRT French",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "fr",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt"
-            )
-        )
-        srt4.add(
-            PlaylistItem(
-                title = "SRT Dutch",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "de",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt"
-            )
-        )
-        srt5.add(
-            PlaylistItem(
-                title = "SRT Italian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "it",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt"
-            )
-        )
-        srt6.add(
-            PlaylistItem(
-                title = "SRT Russian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "ru",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt"
-            )
-        )
-        srt7.add(
-            PlaylistItem(
-                title = "SRT Norwegian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "no",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt"
+                tracks = listSubtSRT
             )
         )
 
-        srt8.add(
-            PlaylistItem(
-                title = "SRT Japanese",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "jp",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt"
-            )
-        )
-        srt9.add(
-            PlaylistItem(
-                title = "SRT Indonesian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "in",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt"
-            )
-        )
-        srt10.add(
-            PlaylistItem(
-                title = "SRT Persian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "pe",
-                subtitleMimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt"
-            )
-        )
 
         srtList.addAll(
             listOf(
@@ -827,166 +679,76 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         val vtt11: MutableList<PlaylistItem> = ArrayList()
         val vttList = mutableListOf<List<PlaylistItem>>()
 
-        vtt1.add(
-            PlaylistItem(
-                title = "English",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "en",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-en.vtt"
-            )
-        )
-        vtt2.add(
-            PlaylistItem(
-                title = "Spanish",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "es",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt"
-            )
-        )
-        vtt3.add(
-            PlaylistItem(
-                title = "French",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "fr",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt"
-            )
-        )
-        vtt4.add(
-            PlaylistItem(
-                title = "Dutch",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "de",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt"
-            )
-        )
-        vtt5.add(
-            PlaylistItem(
-                title = "Italian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "it",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt"
-            )
-        )
-        vtt6.add(
-            PlaylistItem(
-                title = "Russian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "ru",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt"
-            )
-        )
-        vtt7.add(
-            PlaylistItem(
-                title = "Norwegian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "no",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt"
-            )
-        )
-
-        vtt8.add(
-            PlaylistItem(
-                title = "Japanese",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "jp",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt"
-            )
-        )
-        vtt9.add(
-            PlaylistItem(
-                title = "Indonesian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "in",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt"
-            )
-        )
-        vtt10.add(
-            PlaylistItem(
-                title = "Persian",
-                file = videoSourceSubtitle,
-                subtitleLanguage = "pe",
-                subtitleMimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                subtitleUri = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt"
-            )
-        )
-
-        val listSubt = mutableListOf<SubtitleInfo>()
+        val listSubt = mutableListOf<Caption>()
 
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-en.vtt",
+            Caption(
+//                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-en.vtt",
+                file = "https://tears-of-steel-subtitles.s3.amazonaws.com/tears-en.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "en"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "es"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt",
+            Caption(
+//                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt",
+                file = "https://tears-of-steel-subtitles.s3.amazonaws.com/tears-fr.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "fr"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "de"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "it"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "ru"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "no"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "jp"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "in"
             )
         )
         listSubt.add(
-            SubtitleInfo(
-                subtitle = "${DEV_URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt",
+            Caption(
+                file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt",
                 mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                 language = "pe"
             )
@@ -995,19 +757,17 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             PlaylistItem(
                 title = "WebVTT All Selection",
                 file = videoSourceSubtitle,
-                subtitleList = listSubt
+                tracks = listSubt
             )
         )
         vttList.addAll(
-            listOf(
-                vtt11
-            )
+            listOf(vtt11)
         )
         listChild[listHeader[9]] = vttList
     }
 
-    override fun onFinishLidoPlayerKeyCheck(feature: Feature?, errorMessage: String?) {
-        Log.d(TAG, "Error Message : $errorMessage")
+    override fun onFinishInnoPlayerKeyCheck(feature: Feature?, innoError: InnoError?) {
+        Log.d(TAG, "Error Message : ${innoError?.message}")
         Log.d(TAG, "feature this key : $feature")
         val canPlayContent = feature?.canPlayContent ?: false
         val showAds = feature?.canShowAds ?: false
@@ -1017,7 +777,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         Log.d(TAG, "canPlayDRMContent : $playDrmContent")
     }
 
-    override fun onProgressLidoPlayerKeyCheck(isShowProgress: Boolean) {
+    override fun onProgressInnoPlayerKeyCheck(isShowProgress: Boolean) {
         Log.d(TAG, "progress checking key : $isShowProgress")
     }
 }

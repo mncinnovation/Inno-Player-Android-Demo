@@ -1,8 +1,6 @@
 package co.innoplayer.testapp
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import co.innoplayer.configuration.PlayerConfig
 import co.innoplayer.core.utils.MediaSourceUtils
+import co.innoplayer.events.DisplayClickEvent
 import co.innoplayer.events.ErrorEvent
 import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
@@ -70,7 +69,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
             innoPlayerView.addOnDisplayClickListener(object :
                 VideoPlayerEvents.OnDisplayClickListener {
-                override fun onDisplayClick() {
+                override fun onDisplayClick(event: DisplayClickEvent) {
                     Log.e(TAG, "isDisplayClicked")
                 }
             })
@@ -99,8 +98,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
 
         initVideo()
-
-        setIconController()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -152,17 +149,8 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         playerConfig = PlayerConfig(playlists)
 
-        val contentPendingIntent = PendingIntent.getActivity(
-            this, 0, Intent(
-                this,
-                AudioPlayerActivity::class.java
-            ), 0
-        )
-
         val mediaSourceUtils = MediaSourceUtils(this)
-        binding.innoPlayerView.setup(playerConfig, this, mediaSourceUtils, contentPendingIntent)
-
-        Log.d(TAG, "INIT Video Player")
+        binding.innoPlayerView.setup(playerConfig, this, mediaSourceUtils)
     }
 
     override fun onResume() {

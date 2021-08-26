@@ -1,23 +1,15 @@
 package co.innoplayer.testapp
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
 import co.innoplayer.analytics.AnalyticsListener
-import com.google.android.gms.cast.framework.CastButtonFactory
-import com.google.android.gms.cast.framework.CastContext
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.dynamite.DynamiteModule
 import co.innoplayer.configuration.PlayerConfig
-import co.innoplayer.decoder.DecoderCounters
+import co.innoplayer.events.DisplayClickEvent
 import co.innoplayer.events.ErrorEvent
 import co.innoplayer.events.SeekEvent
 import co.innoplayer.events.listeners.VideoPlayerEvents
@@ -25,6 +17,11 @@ import co.innoplayer.ima.utils.MediaSourceAdsUtils
 import co.innoplayer.media.playlists.PlaylistItem
 import co.innoplayer.testapp.databinding.ActivityVideoPlayerBinding
 import co.innoplayer.testapp.databinding.CastContextErrorBinding
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.dynamite.DynamiteModule
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -79,7 +76,7 @@ class VideoPlayerActivity : AppCompatActivity() {
 
             innoPlayerView.addOnDisplayClickListener(object :
                 VideoPlayerEvents.OnDisplayClickListener {
-                override fun onDisplayClick() {
+                override fun onDisplayClick(event: DisplayClickEvent) {
                     Log.e(TAG, "isDisplayClicked")
                 }
             })
@@ -107,14 +104,6 @@ class VideoPlayerActivity : AppCompatActivity() {
             })
 
             innoPlayerView.setAnalyticsListener(object : AnalyticsListener {
-                override fun onAudioSessionId(
-                    eventTime: AnalyticsListener.EventTime,
-                    audioSessionId: Int
-                ) {
-                    super.onAudioSessionId(eventTime, audioSessionId)
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
                 override fun onAudioUnderrun(
                     eventTime: AnalyticsListener.EventTime,
                     bufferSize: Int,
@@ -145,24 +134,6 @@ class VideoPlayerActivity : AppCompatActivity() {
                     Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
                 }
 
-                override fun onDecoderDisabled(
-                    eventTime: AnalyticsListener.EventTime,
-                    trackType: Int,
-                    decoderCounters: DecoderCounters
-                ) {
-                    super.onDecoderDisabled(eventTime, trackType, decoderCounters)
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
-                override fun onDecoderEnabled(
-                    eventTime: AnalyticsListener.EventTime,
-                    trackType: Int,
-                    decoderCounters: DecoderCounters
-                ) {
-                    super.onDecoderEnabled(eventTime, trackType, decoderCounters)
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
                 override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
                     super.onSeekStarted(eventTime)
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
@@ -171,30 +142,6 @@ class VideoPlayerActivity : AppCompatActivity() {
                         param(FirebaseAnalytics.Param.CONTENT_TYPE, "PlayerControl")
                         param(FirebaseAnalytics.Param.VALUE, eventTime.currentPlaybackPositionMs)
                     }
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
-                override fun onDecoderInitialized(
-                    eventTime: AnalyticsListener.EventTime,
-                    trackType: Int,
-                    decoderName: String,
-                    initializationDurationMs: Long
-                ) {
-                    super.onDecoderInitialized(
-                        eventTime,
-                        trackType,
-                        decoderName,
-                        initializationDurationMs
-                    )
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
-                override fun onDecoderInputFormatChanged(
-                    eventTime: AnalyticsListener.EventTime,
-                    trackType: Int,
-                    format: co.innoplayer.Format
-                ) {
-                    super.onDecoderInputFormatChanged(eventTime, trackType, format)
                     Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
                 }
 
@@ -246,21 +193,13 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         playerConfig = PlayerConfig(playlists)
 
-        val contentPendingIntent = PendingIntent.getActivity(
-            this, 0, Intent(
-                this,
-                VideoPlayerActivity::class.java
-            ), 0
-        )
-
+//        val mediaSourceUtils = MediaSourceUtils(this)
         val mediaSourceUtils = MediaSourceAdsUtils(this)
         binding.innoPlayerView.setup(
             playerConfig,
             this,
             mediaSourceUtils,
-            contentPendingIntent,
             true,
-            castContext
         )
     }
 

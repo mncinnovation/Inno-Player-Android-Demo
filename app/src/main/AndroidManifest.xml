@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
-        <activity android:name="co.innoplayer.testapp.AudioPlayerActivity"></activity>
+        <activity android:name="co.innoplayer.testapp.AudioPlayerActivity" />
         <activity android:name="co.innoplayer.testapp.VideoPlayerActivity" />
         <activity android:name="co.innoplayer.testapp.ListChoiceActivity">
             <intent-filter>
