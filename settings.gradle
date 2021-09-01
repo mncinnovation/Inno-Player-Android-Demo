@@ -1,2 +1,3 @@
 rootProject.name='Lido Player Test'
 include ':app'
+include ':demo-tv'
