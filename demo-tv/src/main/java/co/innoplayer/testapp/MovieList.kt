@@ -3,6 +3,7 @@ package co.innoplayer.testapp
 import co.innoplayer.media.ads.AdBreak
 import co.innoplayer.media.ads.AdSource
 import co.innoplayer.media.ads.AdType
+import co.innoplayer.media.ads.AdTypeSource
 import co.innoplayer.media.captions.Caption
 import co.innoplayer.media.captions.CaptionType
 import co.innoplayer.media.captions.MimeTypeSubtitle
@@ -121,15 +122,15 @@ object MovieList {
                 "MPEG-DASH, Preview Thumbnails"
             )
             4 -> arrayOf(
-                "Linear Preload Ad",
                 "Linear Preload Ad Skipable",
+                "Linear Preload Ad",
                 "Non Linear Ad",
                 "Scheduled linear preroll, non-linear midroll, linear postroll",
                 "VMAP linear preroll, non-linear midroll, linear postroll",
                 "VPAID"
             )
             5 -> arrayOf(
-                "Widevine"
+                "Playready"
             )
             6 -> arrayOf(
                 "CEA-608 - HLS",
@@ -158,14 +159,15 @@ object MovieList {
                 "https://livesim.dashif.org/livesim/ato_10/testpic_2s/Manifest.mpd"
             )
             2 -> arrayOf(
-                "${URL_INNO}cdn/audios/ES_Cocoona.mp3",
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                 "${URL_INNO}cdn/audios/ES_Cocoona.aac",
                 "${URL_INNO}cdn/audios/ES_Cocoona.ogg",
                 "${URL_INNO}cdn/audios/ES_Cocoona.opus",
                 "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_q"
             )
             3 -> arrayOf(
-                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd",
+//                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd",
+                "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd",
                 "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd"
             )
             4 -> arrayOf(
@@ -177,7 +179,9 @@ object MovieList {
                 "https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv"
             )
             5 -> arrayOf(
-                "https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd"
+//                "https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd"
+                "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel-dash-playready.ism/.mpd"
+//                "https://delta19tatasky.akamaized.net/out/vod/v1/PKTS2020032310085103_smil/i/25.mpd"
             )
             6 -> arrayOf(
                 "https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8",
@@ -187,21 +191,36 @@ object MovieList {
                 "https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd"
             )
             7 -> arrayOf(
-                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd",
-                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd",
-                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd"
+//                "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd",
+//                "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd",
+//                "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
+                "https://media.xiph.org/tearsofsteel/tears_of_steel_1080p.webm",
+                "https://media.xiph.org/tearsofsteel/tears_of_steel_1080p.webm",
+                "https://media.xiph.org/tearsofsteel/tears_of_steel_1080p.webm"
+//                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd",
+//                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd",
+//                "${URL_INNO}cdn/videos/tears_of_steel/tears_of_steel.mpd"
             )
             else -> arrayOf(
 //                "${URL_INNO}cdn/videos/la_chute_d_une_plume/index.m3u8",
+//                "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8",
+                "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
+                "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd",
                 "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8",
-                "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd",
-                "${URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264_master.m3u8",
-                "${URL_INNO}cdn/videos/cosmos-laundromat/cosmos_laundromat_h264.mpd",
+                "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8",
                 "https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd"
             )
         }
         val drmLicenseList = mutableListOf<DrmLicense>()//
-        drmLicenseList.add(DrmLicense("widevine", "https://cwip-shaka-proxy.appspot.com/no_auth"))
+        drmLicenseList.add(
+            DrmLicense(
+                "playready",
+//                "https://cwip-shaka-proxy.appspot.com/no_auth"
+                "https://test.playready.microsoft.com/service/rightsmanager.asmx?PlayRight=1&UseSimpleNonPersistentLicense=1"
+//                "https://test.playready.microsoft.com/directtaps/svc/pr30/rightsmanager.asmx?UseSimpleNonPersistentLicense=1"
+//                "https://tatasky.stage.ott.irdeto.com/playready/rightsmanager.asmx?CrmId=tatasky&AccountId=tatasky&ContentId=19379_19694&SessionId=13DCDE445493A6C2&Ticket=DB63236AA01F1F78"
+            )
+        )
 
         return title.indices.map {
             buildMovieInfo(
@@ -214,7 +233,17 @@ object MovieList {
                 if (index == 0) mediaIds[it] else null,
                 if (index == 0) category else null,
                 if (index == 7) getCaptionTracks(it) else if (it == title.size - 1) listTracks else null,
-                buildPlaylistMovie(title, videoUrl, listTracks),
+                buildPlaylistMovie(
+                    index,
+                    title[it],
+                    if (index == 3)//playlist
+                        videoUrl
+                    else
+                        arrayOf(videoUrl[it]),
+                    if (index == 7) getCaptionTracks(it) else listTracks,
+                    adBreaks = if (index == 4) getListAds(it) else null,
+                    if (index == 5) drmLicenseList else null
+                ),
                 if (index == 4) getListAds(it) else null,
                 if (index == 5) drmLicenseList else null
             )
@@ -228,70 +257,80 @@ object MovieList {
             1 -> {
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-en.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "en"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-es.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "es"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-fr-Goofy.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "fr"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-de.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "de"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-it.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "it"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-ru.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "ru"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-no.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "no"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-JP.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "jp"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-Indonesian.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "in"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt",
+                        file = "https://media.xiph.org/tearsofsteel/subtitles/TOS-Persian.srt",
                         mimeType = MimeTypeSubtitle.APPLICATION_SUBRIP.value,
                         language = "pe"
                     )
@@ -300,74 +339,77 @@ object MovieList {
             2 -> {
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-en.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "en"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "es"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt",
+                        file = "https://tears-of-steel-subtitles.s3.amazonaws.com/tears-fr.vtt",
                         mimeType = MimeTypeSubtitle.TEXT_VTT.value,
                         language = "fr"
                     )
                 )
                 captionTracks.add(
                     Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt",
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-en.vtt",
+                        file = "https://tears-of-steel-subtitles.s3.amazonaws.com/tears-en.vtt",
                         mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "de"
+                        language = "en"
                     )
                 )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "it"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "ru"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "no"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "jp"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "in"
-                    )
-                )
-                captionTracks.add(
-                    Caption(
-                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt",
-                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
-                        language = "pe"
-                    )
-                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "es"
+//                    )
+//                )
+
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "de"
+//                    )
+//                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "it"
+//                    )
+//                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "ru"
+//                    )
+//                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "no"
+//                    )
+//                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "jp"
+//                    )
+//                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "in"
+//                    )
+//                )
+//                captionTracks.add(
+//                    Caption(
+//                        file = "${URL_INNO}cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt",
+//                        mimeType = MimeTypeSubtitle.TEXT_VTT.value,
+//                        language = "pe"
+//                    )
+//                )
             }
             else -> {
                 val captionEn = Caption.Builder()
@@ -460,9 +502,14 @@ object MovieList {
         listAdSchedule.clear()
         when (index) {
             1 -> {
-                listAdSchedule.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator="))
+                listAdSchedule.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="))
             }
-            2 -> listAdSchedule.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator="))
+            2 -> listAdSchedule.add(
+                AdBreak(
+                    tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=",
+                    adType = AdType.NONLINEAR
+                )
+            )
             3 -> {
                 listAdSchedule.add(
                     AdBreak(
@@ -507,7 +554,7 @@ object MovieList {
             )
             5 -> listAdSchedule.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinearvpaid2js&correlator="))
             else -> {
-                listAdSchedule.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="))
+                listAdSchedule.add(AdBreak(tag = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator="))
             }
         }
 
@@ -515,17 +562,23 @@ object MovieList {
     }
 
     private fun buildPlaylistMovie(
-        titles: Array<String>,
+        index: Int,
+        title: String,
         videoUrls: Array<String>,
-        tracks: List<Caption>?
+        tracks: List<Caption>?,
+        adBreaks: List<AdBreak>? = null,
+        drmLicense: List<DrmLicense>? = null
     ): List<PlaylistItem> {
         val mutableList = mutableListOf<PlaylistItem>()
-        for (i in titles.indices) {
+
+        for (i in videoUrls.indices) {
             mutableList.add(
                 PlaylistItem(
-                    title = titles[i],
+                    title = title,
                     file = videoUrls[i],
-                    tracks = if (i == titles.size - 1) tracks else null
+                    tracks = if (index == 7 || (index == 0 && i == videoUrls.size - 1)) tracks else null,
+                    adSchedule = adBreaks,
+                    drmLicenses = drmLicense
                 )
             )
         }

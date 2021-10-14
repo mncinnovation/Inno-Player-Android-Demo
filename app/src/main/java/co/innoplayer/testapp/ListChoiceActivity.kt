@@ -105,7 +105,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
                 mediaId = "BasicMPEG-DASHVideoDemo",
                 category = "Basic",
                 title = "MPEG-DASH",
-                file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
+                file = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd"
             )
         )
         hls3.add(
@@ -275,7 +275,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         playlist2.add(
             PlaylistItem(
                 title = "MPEG-DASH",
-                file = "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
+                file = "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd"
             )
         )
         playlistList.addAll(listOf(playlist2))
@@ -555,7 +555,7 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
             )
         )
         val videoSourceSubtitle =
-            "https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd"
+            "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd"
 
         sub0.add(
             PlaylistItem(

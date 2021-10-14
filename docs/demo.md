@@ -4,7 +4,7 @@
    - HLS
      ```https://lidoplayer.innovationcenter.id/cdn/videos/la_chute_d_une_plume/index.m3u8```
    - MPEG-DASH
-     ```https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.mpd```
+     ```"https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd"```
    - HLS (CMAF)
      ```https://lidoplayer.innovationcenter.id/cdn/videos/cosmos-laundromat/cosmos_laundromat_h264_master.m3u8```
    - MPEG-DASH (CMAF)
@@ -45,7 +45,7 @@
      - video -> ```https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd```
      - license server -> ```https://cwip-shaka-proxy.appspot.com/no_auth```
    - Playready (for Android TV)
-     - video -> ```https://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-dash-playready.ism/.mpd```
+     - video -> ```"https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel-dash-playready.ism/.mpd"```
      - license server -> ```https://test.playready.microsoft.com/service/rightsmanager.asmx?PlayRight=1&UseSimpleNonPersistentLicense=1```
    - Multi DRM
      - video -> ```https://amssamples.streaming.mediaservices.windows.net/622b189f-ec39-43f2-93a2-201ac4e31ce1/BigBuckBunny.ism/manifest(format=mpd-time-csf)```
