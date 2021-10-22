@@ -2,6 +2,7 @@ package co.innoplayer.testapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -38,13 +39,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityVideoPlayerBinding.inflate(getLayoutInflater());
         castContextErrorBinding = CastContextErrorBinding.inflate(getLayoutInflater());
-        if(Utils.isGoogleApiAvailable(this)){
+        if (Utils.isGoogleApiAvailable(this)) {
             try {
                 castContext = CastContext.getSharedInstance(this);
-            }catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 Throwable cause = e.getCause();
-                while (cause != null){
-                    if(cause instanceof DynamiteModule.LoadingException){
+                while (cause != null) {
+                    if (cause instanceof DynamiteModule.LoadingException) {
                         setContentView(binding.getRoot());
                         return;
                     }
@@ -64,7 +65,29 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         binding.innoPlayerView.addOnSeekListener(seekEvent -> Log.e(TAG, "Scrub controller at " + seekEvent.getPosition()));
 
+        binding.innoPlayerView.addOnFullscreenListener(b -> {
+            if (b) {
+                getSupportActionBar().hide();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            } else {
+                getSupportActionBar().show();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        });
+
         initVideo();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        binding.innoPlayerView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        binding.innoPlayerView.onStop();
     }
 
     private void initVideo() {
@@ -112,7 +135,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!binding.innoPlayerView.onBackPressedIsExitFullscreen()){
+        if (!binding.innoPlayerView.onBackPressedIsExitFullscreen()) {
             super.onBackPressed();
         }
     }

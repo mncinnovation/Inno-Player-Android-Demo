@@ -35,13 +35,13 @@ public class AudioPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAudioPlayerBinding.inflate(getLayoutInflater());
         castContextErrorBinding = CastContextErrorBinding.inflate(getLayoutInflater());
-        if(Utils.isGoogleApiAvailable(this)){
+        if (Utils.isGoogleApiAvailable(this)) {
             try {
                 castContext = CastContext.getSharedInstance(this);
-            }catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 Throwable cause = e.getCause();
-                while (cause != null){
-                    if(cause instanceof DynamiteModule.LoadingException){
+                while (cause != null) {
+                    if (cause instanceof DynamiteModule.LoadingException) {
                         setContentView(binding.getRoot());
                         return;
                     }
@@ -110,8 +110,21 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!binding.innoPlayerView.onBackPressedIsExitFullscreen()){
+        if (!binding.innoPlayerView.onBackPressedIsExitFullscreen()) {
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        binding.innoPlayerView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        binding.innoPlayerView.onStop();
+    }
+
 }

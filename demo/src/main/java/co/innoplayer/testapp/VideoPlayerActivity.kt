@@ -1,6 +1,7 @@
 package co.innoplayer.testapp
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -60,6 +61,19 @@ class VideoPlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding) {
+            innoPlayerView.addOnFullscreenListener(object : VideoPlayerEvents.OnFullscreenListener {
+                override fun onFullscreen(isFullscreen: Boolean) {
+                    Log.e(TAG, "isFullscreenMode: $isFullscreen")
+                    requestedOrientation = if (isFullscreen) {
+                        supportActionBar?.hide()
+                        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    } else {
+                        supportActionBar?.show()
+                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    }
+                }
+            })
+
             innoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
                 override fun onError(error: ErrorEvent?) {
                     Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
@@ -226,6 +240,17 @@ class VideoPlayerActivity : AppCompatActivity() {
         super.onPause()
         binding.innoPlayerView.onPause()
     }
+
+    override fun onStart() {
+        super.onStart()
+        binding.innoPlayerView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.innoPlayerView.onStop()
+    }
+
 
     override fun onBackPressed() {
         if (!binding.innoPlayerView.onBackPressedIsExitFullscreen())
