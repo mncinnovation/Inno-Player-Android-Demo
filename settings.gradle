@@ -1,3 +1,4 @@
-rootProject.name='Lido Player Test'
-include ':app'
+rootProject.name='Inno Player Test'
+include ':demo'
 include ':demo-tv'
+include ':demo-java'

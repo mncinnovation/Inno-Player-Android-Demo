@@ -85,11 +85,11 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
     private fun prepareListData() {
         listHeader.add("Basic Streaming")
 
-        val hls5: MutableList<PlaylistItem> = ArrayList()
         val hls1: MutableList<PlaylistItem> = ArrayList()
         val hls2: MutableList<PlaylistItem> = ArrayList()
         val hls3: MutableList<PlaylistItem> = ArrayList()
         val hls4: MutableList<PlaylistItem> = ArrayList()
+        val hls5: MutableList<PlaylistItem> = ArrayList()
         val hlsPlaylistSample = mutableListOf<List<PlaylistItem>>()
 
         hls1.add(
@@ -126,7 +126,6 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         )
 
         val thumbnailTrack = mutableListOf<Caption>()
-        thumbnailTrack.clear()
         thumbnailTrack.add(
             Caption(
                 "https://bitdash-a.akamaihd.net/content/MI201109210084_1/thumbnails/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.jpg",
