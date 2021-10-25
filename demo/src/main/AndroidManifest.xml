@@ -21,7 +21,8 @@
         android:requestLegacyExternalStorage="true">
         <activity android:name="co.innoplayer.testapp.AudioPlayerActivity" />
         <activity android:name="co.innoplayer.testapp.VideoPlayerActivity" />
-        <activity android:name="co.innoplayer.testapp.ListChoiceActivity">
+        <activity android:name="co.innoplayer.testapp.ListChoiceActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
