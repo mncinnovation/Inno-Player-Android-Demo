@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseFragment
 import androidx.leanback.widget.*
+import co.innoplayer.InnoPlayerSDK
+import co.innoplayer.license.LicenseUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -38,6 +40,8 @@ class MainFragment : BrowseFragment() {
         Log.i(TAG, "onCreate")
         super.onActivityCreated(savedInstanceState)
 
+        initSDKInnoPlayer()
+
         prepareBackgroundManager()
 
         setupUIElements()
@@ -45,6 +49,22 @@ class MainFragment : BrowseFragment() {
         loadRows()
 
         setupEventListeners()
+    }
+
+    private fun initSDKInnoPlayer() {
+        activity.applicationContext?.let {
+            LicenseUtil().setLicenseKey(
+                activity,
+                "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
+            )
+
+            InnoPlayerSDK().initMncAnalytics(
+                it,
+                "Fw2EgY5ZdYS9XrBkxEJMBXm3AcjB0Lq4gZuSmZUht94wXQlM",
+                null,
+                "InnoPlayerDemo"
+            )
+        }
     }
 
     override fun onDestroy() {

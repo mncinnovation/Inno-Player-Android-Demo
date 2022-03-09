@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A6000000">
+
+
+    <ImageButton
+        android:id="@+id/inno_prev_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="36dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/inno_prev"
+        android:padding="8dp"
+        android:src="@drawable/button_prev"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/inno_next_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="36dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/inno_next"
+        android:padding="8dp"
+        android:src="@drawable/button_next"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/exo_play_centeraction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/inno_play"
+        android:padding="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/button_play" />
+    <!--android:background="@drawable/player_play_button_background"-->
+
+    <ImageView
+        android:id="@+id/exo_pause_center_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/inno_pause"
+        android:padding="12dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/button_pause" />
+
+    <LinearLayout
+        android:id="@+id/lin_media_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <co.innoplayer.InnoDefaultTimeBar
+            android:id="@+id/inno_player_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bar_height="2dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_pauseplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/exo_play_action"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/inno_play"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button_play" />
+                <!--android:background="@drawable/player_play_button_background"-->
+
+                <ImageView
+                    android:id="@+id/exo_pause_action"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/inno_pause"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/button_pause" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_bwds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@id/rl_pauseplay"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/img_bwds"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:contentDescription="@string/inno_backward"
+                    android:focusable="true"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:src="@drawable/button_ccw" />
+
+                <TextView
+                    android:id="@+id/tv_bwdtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="20"
+                    android:textColor="@android:color/white"
+                    android:textSize="7sp"
+                    tools:ignore="SmallSp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_fwds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/rl_bwds"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/imgfwd"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="4dp"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:contentDescription="@string/inno_forward"
+                    android:focusable="true"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:src="@drawable/button_cw" />
+
+                <TextView
+                    android:id="@+id/tv_fwdtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="20"
+                    android:textColor="@android:color/white"
+                    android:textSize="7sp"
+                    tools:ignore="SmallSp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_player_currenttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/rl_fwds"
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dashtimeplayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginStart="2dp"
+                android:layout_toEndOf="@id/tv_player_currenttime"
+                android:gravity="center"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="/"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_player_endtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginStart="2dp"
+                android:layout_toEndOf="@id/tv_dashtimeplayer"
+                android:gravity="center"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="99:99"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/full_screen_enter_exit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:clickable="true"
+                android:contentDescription="@string/inno_fullscreen"
+                android:focusable="true"
+                android:padding="3dp"
+                android:src="@drawable/button_fullscreen" />
+
+
+            <ImageView
+                android:id="@+id/img_settings"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/full_screen_enter_exit"
+                android:clickable="true"
+                android:contentDescription="@string/inno_setting"
+                android:focusable="true"
+                android:padding="5dp"
+                android:src="@drawable/button_setting" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

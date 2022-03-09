@@ -30,7 +30,7 @@ import testapp.databinding.ActivityListChoiceBinding;
 
 
 public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerSDK.KeyCheckInitialListener {
-    String key = "42ef1e0bf5d4641449ebc9a00993c8ed5bcecf588e7c64fb2322f91b95859a7d";
+    String key = "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888";
     final String TAG = "CLIENTAPP";
     ChoiceExpandableListAdapter listAdapter;
     List<String> listHeader = new ArrayList<>();
@@ -160,8 +160,15 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         List<PlaylistItem> live1 = new ArrayList<>();
         List<PlaylistItem> live2 = new ArrayList<>();
         List<List<PlaylistItem>> liveStreamSample = new ArrayList<>();
-        live1.add(new PlaylistItem.Builder().title("HLS").file("https://tv.balkanweb.com/news24/livestream/playlist.m3u8").build());
-        live2.add(new PlaylistItem.Builder().title("DASH").file("https://livesim.dashif.org/livesim/ato_10/testpic_2s/Manifest.mpd").build());
+        PlaylistItem playlistItemLive1 = new PlaylistItem();
+        PlaylistItem playlistItemLive2 = new PlaylistItem();
+        playlistItemLive1.setTitle("HLS");
+        playlistItemLive1.setFile("https://tv.balkanweb.com/news24/livestream/playlist.m3u8");
+        playlistItemLive1.setTitle("DASH");
+        playlistItemLive1.setFile("https://livesim.dashif.org/livesim/ato_10/testpic_2s/Manifest.mpd");
+
+        live1.add(playlistItemLive1);
+        live2.add(playlistItemLive2);
         liveStreamSample.add(live1);
         liveStreamSample.add(live2);
         listChild.put(listHeader.get(1), liveStreamSample);
@@ -174,27 +181,32 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         List<PlaylistItem> audio4 = new ArrayList<>();
         List<PlaylistItem> audio5 = new ArrayList<>();
         List<List<PlaylistItem>> audioSample = new ArrayList<>();
-        audio1.add(new PlaylistItem.Builder()
-                .title("MP3")
-                .file("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
-                .image("https://upload.wikimedia.org/wikipedia/commons/5/5e/MP3_logo.png")
-                .description("SoundHelix Sound").build());
-        audio2.add(new PlaylistItem.Builder()
-                .title("AAC")
-                .file(URL_INNO + "cdn/audios/ES_Cocoona.aac")
-                .description("AAC Sample Sound").build());
-        audio3.add(new PlaylistItem.Builder()
-                .title("OGG Vorbis")
-                .file(URL_INNO + "cdn/audios/ES_Cocoona.ogg")
-                .description("OGG Vorbis Sample Sound").build());
-        audio4.add(new PlaylistItem.Builder()
-                .title("Opus")
-                .file(URL_INNO + "cdn/audios/ES_Cocoona.opus")
-                .description("Opus Sample Sound").build());
-        audio5.add(new PlaylistItem.Builder()
-                .title("Internet Radio\nBBC Media")
-                .file(URL_INNO + "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_q")
-                .description("Internet Radio").build());
+        PlaylistItem playlistItemMp3 = new PlaylistItem();
+        playlistItemMp3.setTitle("MP3");
+        playlistItemMp3.setFile("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+        playlistItemMp3.setImage("https://upload.wikimedia.org/wikipedia/commons/5/5e/MP3_logo.png");
+        playlistItemMp3.setDescription("SoundHelix Sound");
+        audio1.add(playlistItemMp3);
+        PlaylistItem playlistItemAac = new PlaylistItem();
+        playlistItemAac.setTitle("AAC");
+        playlistItemAac.setDescription("AAC Sample Sound");
+        playlistItemAac.setFile(URL_INNO + "cdn/audios/ES_Cocoona.aac");
+        audio2.add(playlistItemAac);
+        PlaylistItem playlistItemOgg = new PlaylistItem();
+        playlistItemOgg.setFile(URL_INNO + "cdn/audios/ES_Cocoona.ogg");
+        playlistItemOgg.setTitle("OGG Vorbis");
+        playlistItemOgg.setDescription("OGG Vorbis Sample Sound");
+        audio3.add(playlistItemOgg);
+        PlaylistItem playlistItemOpus = new PlaylistItem();
+        playlistItemOpus.setDescription("Opus Sample Sound");
+        playlistItemOpus.setTitle("Opus");
+        playlistItemOpus.setFile(URL_INNO + "cdn/audios/ES_Cocoona.opus");
+        audio4.add(playlistItemOpus);
+        PlaylistItem playlistItemBbc = new PlaylistItem();
+        playlistItemBbc.setTitle("Internet Radio\nBBC Media");
+        playlistItemBbc.setDescription("Internet Radio");
+        playlistItemBbc.setFile(URL_INNO + "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_q");
+        audio5.add(playlistItemBbc);
 
         audioSample.add(audio1);
         audioSample.add(audio2);
@@ -206,17 +218,15 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         listHeader.add("Playlist");
         List<PlaylistItem> playlist1 = new ArrayList<>();
         List<List<PlaylistItem>> playlistSample = new ArrayList<>();
-        playlist1.add(new PlaylistItem.Builder()
-                .title("Preview Thumbnails")
-                .file("https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd")
-                .tracks(thumbnailTrack)
-                .build()
-        );
-        playlist1.add(new PlaylistItem.Builder()
-                .title("MPEG-DASH")
-                .file("https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd")
-                .build()
-        );
+        PlaylistItem playlistItemPreview = new PlaylistItem();
+        playlistItemPreview.setTitle("Preview Thumbnails");
+        playlistItemPreview.setFile("https://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd");
+        playlistItemPreview.setTracks(thumbnailTrack);
+        PlaylistItem playlistItemMpegDash = new PlaylistItem();
+        playlistItemMpegDash.setFile("https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd");
+        playlistItemMpegDash.setTitle("MPEG-DASH");
+        playlist1.add(playlistItemPreview);
+        playlist1.add(playlistItemMpegDash);
         playlistSample.add(playlist1);
         listChild.put(listHeader.get(3), playlistSample);
 
@@ -231,32 +241,38 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
 
         List<AdBreak> listAds = new ArrayList<>();
         listAds.add(new AdBreak(null, null, "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=", null));
-        ima0.add(new PlaylistItem.Builder().title("Linear Preload Ad Skipable")
-                .mediaId("ads-linearskipable")
-                .category("ads")
-                .adSchedule(listAds)
-                .file("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv")
-                .adTypeSource(AdTypeSource.VAST)
-                .build());
+        PlaylistItem playlistItemAds1 = new PlaylistItem();
+        playlistItemAds1.setTitle("Linear Preload Ad Skipable");
+        playlistItemAds1.setFile("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv");
+        playlistItemAds1.setAdSchedule(listAds);
+        playlistItemAds1.setCategory("ads");
+        playlistItemAds1.setAdTypeSource(AdTypeSource.VAST);
+        ima0.add(playlistItemAds1);
 
         List<AdBreak> listAds2 = new ArrayList<>();
         listAds2.add(new AdBreak(null, null, "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=", null));
-        ima1.add(new PlaylistItem.Builder().title("Linear Preload Ad")
-                .mediaId("ads-linearskipable")
-                .category("ads")
-                .adSchedule(listAds2)
-                .file("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv")
-                .adTypeSource(AdTypeSource.VAST)
-                .build());
+        PlaylistItem playlistItemAds2 = new PlaylistItem();
+        playlistItemAds2.setTitle("Linear Preload Ad");
+        playlistItemAds2.setAdSchedule(listAds2);
+        playlistItemAds2.setFile("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv");
+        playlistItemAds2.setAdTypeSource(AdTypeSource.VAST);
+        playlistItemAds2.setMediaId("ads-linearskipable");
+        playlistItemAds2.setCategory("ads");
+
+        ima1.add(playlistItemAds2);
 
         List<AdBreak> listAds3 = new ArrayList<>();
         listAds3.add(new AdBreak(null, null, "https://pubads.g.doubleclick.net/gampad/ads?sz=480x70&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dnonlinear&correlator=", AdType.NONLINEAR));
-        ima2.add(new PlaylistItem.Builder().title("Non Linear Ad")
-                .mediaId("ads-nonlinear")
-                .category("ads")
-                .adSchedule(listAds3)
-                .file("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv")
-                .build());
+
+        PlaylistItem playlistItemAds3 = new PlaylistItem();
+        playlistItemAds3.setTitle("Non Linear Ad");
+        playlistItemAds3.setAdSchedule(listAds3);
+        playlistItemAds3.setFile("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv");
+        playlistItemAds3.setAdTypeSource(AdTypeSource.VAST);
+        playlistItemAds3.setMediaId("ads-nonlinear");
+        playlistItemAds3.setCategory("ads");
+
+        ima2.add(playlistItemAds3);
 
         List<AdBreak> listAds4 = new ArrayList<>();
         listAds4.add(new AdBreak("PRE", AdSource.IMA, "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=", AdType.LINEAR));
@@ -267,13 +283,15 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         }
         listAds4.add(new AdBreak("POST", AdSource.IMA, "https://pubads.g.doubleclick.net/gampad/ads?iu=/21705426382/1.0&description_url=http%3A%2F%2Finnovationcenter.co&tfcd=0&npa=0&sz=400x300%7C640x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=", AdType.LINEAR));
 
-        ima3.add(new PlaylistItem.Builder().title("Scheduled linear preroll, non-linear midroll, linear postroll")
-                .mediaId("ads-schedule")
-                .category("ads")
-                .adSchedule(listAds4)
-                .adTypeSource(AdTypeSource.VMAP)
-                .file("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv")
-                .build());
+        PlaylistItem playlistItemAds4 = new PlaylistItem();
+        playlistItemAds4.setTitle("Scheduled linear preroll, non-linear midroll, linear postroll");
+        playlistItemAds4.setAdSchedule(listAds4);
+        playlistItemAds4.setFile("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv");
+        playlistItemAds4.setAdTypeSource(AdTypeSource.VMAP);
+        playlistItemAds4.setMediaId("ads-schedule");
+        playlistItemAds4.setCategory("ads");
+
+        ima3.add(playlistItemAds4);
 
 
         List<AdBreak> listAds5 = new ArrayList<>();
@@ -281,23 +299,28 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
                 + "ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp"
                 + "&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite"
                 + "%26sample_ar%3Dpremidpost&cmsid=496&vid=short_onecue&correlator=", AdType.NONLINEAR));
-        ima4.add(new PlaylistItem.Builder().title("VMAP linear preroll, non-linear midroll, linear postroll")
-                .mediaId("ads-vmap")
-                .category("ads")
-                .adTypeSource(AdTypeSource.VMAP)
-                .adSchedule(listAds5)
-                .file("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv")
-                .build());
+        PlaylistItem playlistItemAds5 = new PlaylistItem();
+        playlistItemAds5.setTitle("VMAP linear preroll, non-linear midroll, linear postroll");
+        playlistItemAds5.setAdSchedule(listAds5);
+        playlistItemAds5.setFile("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv");
+        playlistItemAds5.setAdTypeSource(AdTypeSource.VMAP);
+        playlistItemAds5.setMediaId("ads-vmap");
+        playlistItemAds5.setCategory("ads");
+
+        ima4.add(playlistItemAds5);
 
         List<AdBreak> listAds6 = new ArrayList<>();
         listAds6.add(new AdBreak(null, null, "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinearvpaid2js&correlator=", AdType.NONLINEAR));
-        ima5.add(new PlaylistItem.Builder().title("VPAID")
-                .mediaId("ads-vpaid")
-                .category("ads")
-                .adTypeSource(AdTypeSource.VPAID)
-                .adSchedule(listAds6)
-                .file("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv")
-                .build());
+
+        PlaylistItem playlistItemAds6 = new PlaylistItem();
+        playlistItemAds6.setTitle("VPAID");
+        playlistItemAds6.setAdSchedule(listAds6);
+        playlistItemAds6.setFile("https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv");
+        playlistItemAds6.setAdTypeSource(AdTypeSource.VPAID);
+        playlistItemAds6.setMediaId("ads-vpaid");
+        playlistItemAds6.setCategory("ads");
+
+        ima5.add(playlistItemAds6);
 
         imaSample.add(ima0);
         imaSample.add(ima1);
@@ -329,36 +352,32 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         List<PlaylistItem> subsEmbed5 = new ArrayList<>();
         List<List<PlaylistItem>> subEmbedSample = new ArrayList<>();
 
-        subsEmbed1.add(
-                new PlaylistItem.Builder()
-                        .title("CEA-608 - HLS (Embedded in stream)")
-                        .file("https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8")
-                        .build()
-        );
-        subsEmbed2.add(
-                new PlaylistItem.Builder()
-                        .title("CEA-608 - MPEG-DASH (Embedded in stream)")
-                        .file("https://vm2.dashif.org/dash/vod/testpic_2s/cea608.mpd")
-                        .build()
-        );
+        PlaylistItem playlistItemHLSEmbedded = new PlaylistItem();
+        playlistItemHLSEmbedded.setFile("https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8");
+        playlistItemHLSEmbedded.setTitle("CEA-608 - HLS (Embedded in stream)");
+        subsEmbed1.add(playlistItemHLSEmbedded);
+
+        PlaylistItem playlistItemMpegEmbedded = new PlaylistItem();
+        playlistItemMpegEmbedded.setFile("https://vm2.dashif.org/dash/vod/testpic_2s/cea608.mpd");
+        playlistItemMpegEmbedded.setTitle("CEA-608 - MPEG-DASH (Embedded in stream)");
+        subsEmbed2.add(playlistItemMpegEmbedded);
+
+        PlaylistItem playlistItemTTMLEmbedded = new PlaylistItem();
+        playlistItemTTMLEmbedded.setFile("https://irtdashreference-i.akamaihd.net/dash/live/901161/bfs/manifestARD.mpd");
+        playlistItemTTMLEmbedded.setTitle("TTML (Embedded in stream)");
         subsEmbed3.add(
-                new PlaylistItem.Builder()
-                        .title("TTML (Embedded in stream)")
-                        .file("https://irtdashreference-i.akamaihd.net/dash/live/901161/bfs/manifestARD.mpd")
-                        .build()
+                playlistItemTTMLEmbedded
         );
-        subsEmbed4.add(
-                new PlaylistItem.Builder()
-                        .title("WebVTT-HLS (Embedded in stream)")
-                        .file("https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8")
-                        .build()
-        );
-        subsEmbed5.add(
-                new PlaylistItem.Builder()
-                        .title("WebVTT-DASH (Embedded in stream)")
-                        .file("https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd")
-                        .build()
-        );
+
+        PlaylistItem playlistItemWebVTTHLSEmbedded = new PlaylistItem();
+        playlistItemWebVTTHLSEmbedded.setFile("https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8");
+        playlistItemWebVTTHLSEmbedded.setTitle("WebVTT-HLS (Embedded in stream)");
+        subsEmbed4.add(playlistItemWebVTTHLSEmbedded);
+
+        PlaylistItem playlistItemWebVTTDashEmbedded = new PlaylistItem();
+        playlistItemWebVTTDashEmbedded.setFile("https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd");
+        playlistItemWebVTTDashEmbedded.setTitle("WebVTT-DASH (Embedded in stream)");
+        subsEmbed5.add(playlistItemWebVTTDashEmbedded);
 
         subEmbedSample.add(subsEmbed1);
         subEmbedSample.add(subsEmbed2);
@@ -375,70 +394,24 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         List<List<PlaylistItem>> subList = new ArrayList<>();
 
         List<Caption> captionTracks = new ArrayList<>();
-        Caption captionEn = new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
-                .language("en")
-                .label("English")
-                .kind(CaptionType.CAPTIONS)
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .isdefault(true)
-                .build();
-        captionTracks.add(captionEn);
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-es.ttml")
-                .language("es")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-fr-Goofy.ttml")
-                .language("fr")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-de.ttml")
-                .language("de")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-it.ttml")
-                .language("it")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-ru.ttml")
-                .language("ru")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-no.ttml")
-                .language("no")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-JP.ttml")
-                .language("jp")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-Indonesian.ttml")
-                .language("in")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-Persian.ttml")
-                .language("pe")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        captionTracks.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/ttml/TOS-CH.ttml")
-                .language("ch")
-                .mimeType(MimeTypeSubtitle.TTML.getValue())
-                .build());
-        subOutTTML.add(new PlaylistItem.Builder()
-                .title("TTML All Selection")
-                .tracks(captionTracks)
-                .file(videoSourceSubtitle)
-                .build());
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml", CaptionType.CAPTIONS, "English", MimeTypeSubtitle.TTML.getValue(), "en", true));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-es.ttml", CaptionType.CAPTIONS, "Espanol", MimeTypeSubtitle.TTML.getValue(), "es", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-fr-Goofy.ttml", CaptionType.CAPTIONS, "France", MimeTypeSubtitle.TTML.getValue(), "fr", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-de.ttml", CaptionType.CAPTIONS, "Denmark", MimeTypeSubtitle.TTML.getValue(), "de", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-it.ttml", CaptionType.CAPTIONS, "Italy", MimeTypeSubtitle.TTML.getValue(), "it", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-ru.ttml", CaptionType.CAPTIONS, "Rusia", MimeTypeSubtitle.TTML.getValue(), "ru", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-no.ttml", CaptionType.CAPTIONS, "Norwegia", MimeTypeSubtitle.TTML.getValue(), "no", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-JP.ttml", CaptionType.CAPTIONS, "Japan", MimeTypeSubtitle.TTML.getValue(), "jp", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-Indonesian.ttml", CaptionType.CAPTIONS, "Indonesian", MimeTypeSubtitle.TTML.getValue(), "in", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-Persian.ttml", CaptionType.CAPTIONS, "Persian", MimeTypeSubtitle.TTML.getValue(), "pe", false));
+        captionTracks.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/ttml/TOS-CH.ttml", CaptionType.CAPTIONS, "Chinese", MimeTypeSubtitle.TTML.getValue(), "ch", false));
+
+        PlaylistItem playlistItemTTMLSub = new PlaylistItem();
+        playlistItemTTMLSub.setTitle("TTML All Selection");
+        playlistItemTTMLSub.setTracks(captionTracks);
+        playlistItemTTMLSub.setFile(videoSourceSubtitle);
+
+        subOutTTML.add(playlistItemTTMLSub);
 
         subList.add(subOutTTML);
         listChild.put(listHeader.get(7), subList);
@@ -449,69 +422,24 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
 
         List<Caption> captionTracksSrt = new ArrayList<>();
 
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt")
-                .language("en")
-                .label("English")
-                .kind(CaptionType.CAPTIONS)
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .isdefault(true)
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt")
-                .language("es")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt")
-                .language("fr")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt")
-                .language("de")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt")
-                .language("it")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt")
-                .language("ru")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt")
-                .language("no")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt")
-                .language("jp")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt")
-                .language("in")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt")
-                .language("pe")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        captionTracksSrt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/srt/TOS-CH.srt")
-                .language("ch")
-                .mimeType(MimeTypeSubtitle.APPLICATION_SUBRIP.getValue())
-                .build());
-        subOutSRT.add(new PlaylistItem.Builder()
-                .title("SRT All Selection")
-                .tracks(captionTracksSrt)
-                .file(videoSourceSubtitle)
-                .build());
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-en.srt", CaptionType.CAPTIONS, "English", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "ch", true));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-es.srt", CaptionType.CAPTIONS, "Espanol", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "es", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-fr-Goofy.srt", CaptionType.CAPTIONS, "France", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "es", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-de.srt", CaptionType.CAPTIONS, "Denmark", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "de", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-it.srt", CaptionType.CAPTIONS, "Italy", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "it", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-ru.srt", CaptionType.CAPTIONS, "Rusia", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "ru", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-no.srt", CaptionType.CAPTIONS, "Norwegia", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "no", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-JP.srt", CaptionType.CAPTIONS, "Japan", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "jp", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-Indonesian.srt", CaptionType.CAPTIONS, "Indonesian", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "in", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-Persian.srt", CaptionType.CAPTIONS, "Persian", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "pe", false));
+        captionTracksSrt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/srt/TOS-CH.srt", CaptionType.CAPTIONS, "Chinese", MimeTypeSubtitle.APPLICATION_SUBRIP.getValue(), "ch", false));
+
+        PlaylistItem playlistItemSrtSub = new PlaylistItem();
+        playlistItemSrtSub.setTracks(captionTracksSrt);
+        playlistItemSrtSub.setTitle("SRT All Selection");
+        playlistItemSrtSub.setFile(videoSourceSubtitle);
+
+        subOutSRT.add(playlistItemSrtSub);
 
         subListSrt.add(subOutSRT);
         listChild.put(listHeader.get(8), subListSrt);
@@ -521,70 +449,24 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         List<List<PlaylistItem>> subListVtt = new ArrayList<>();
 
         List<Caption> captionTracksVtt = new ArrayList<>();
+        captionTracksVtt.add(new Caption("https://tears-of-steel-subtitles.s3.amazonaws.com/tears-en.vtt", CaptionType.CAPTIONS, "English", MimeTypeSubtitle.TEXT_VTT.getValue(), "en", true));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt", CaptionType.CAPTIONS, "Espanol", MimeTypeSubtitle.TEXT_VTT.getValue(), "es", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt", CaptionType.CAPTIONS, "France", MimeTypeSubtitle.TEXT_VTT.getValue(), "fr", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt", CaptionType.CAPTIONS, "Denmark", MimeTypeSubtitle.TEXT_VTT.getValue(), "de", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt", CaptionType.CAPTIONS, "Italy", MimeTypeSubtitle.TEXT_VTT.getValue(), "it", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt", CaptionType.CAPTIONS, "Rusia", MimeTypeSubtitle.TEXT_VTT.getValue(), "ru", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt", CaptionType.CAPTIONS, "Norwegia", MimeTypeSubtitle.TEXT_VTT.getValue(), "no", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt", CaptionType.CAPTIONS, "Japan", MimeTypeSubtitle.TEXT_VTT.getValue(), "jp", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt", CaptionType.CAPTIONS, "Indonesian", MimeTypeSubtitle.TEXT_VTT.getValue(), "in", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt", CaptionType.CAPTIONS, "Persian", MimeTypeSubtitle.TEXT_VTT.getValue(), "pe", false));
+        captionTracksVtt.add(new Caption(URL_INNO + "cdn/videos/tears_of_steel/subtitle/webvtt/TOS-CH.vtt", CaptionType.CAPTIONS, "Chinese", MimeTypeSubtitle.TEXT_VTT.getValue(), "ch", false));
 
-        captionTracksVtt.add(new Caption.Builder()
-                .file("https://tears-of-steel-subtitles.s3.amazonaws.com/tears-en.vtt")
-                .language("en")
-                .label("English")
-                .kind(CaptionType.CAPTIONS)
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .isdefault(true)
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-es.vtt")
-                .language("es")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-fr-Goofy.vtt")
-                .language("fr")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-de.vtt")
-                .language("de")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-it.vtt")
-                .language("it")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-ru.vtt")
-                .language("ru")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-no.vtt")
-                .language("no")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-JP.vtt")
-                .language("jp")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Indonesian.vtt")
-                .language("in")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-Persian.vtt")
-                .language("pe")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        captionTracksVtt.add(new Caption.Builder()
-                .file(URL_INNO+"cdn/videos/tears_of_steel/subtitle/webvtt/TOS-CH.vtt")
-                .language("ch")
-                .mimeType(MimeTypeSubtitle.TEXT_VTT.getValue())
-                .build());
-        subOutVTT.add(new PlaylistItem.Builder()
-                .title("WebVTT All Selection")
-                .tracks(captionTracksVtt)
-                .file(videoSourceSubtitle)
-                .build());
+        PlaylistItem playlistItemWebVttSub = new PlaylistItem();
+        playlistItemWebVttSub.setFile(videoSourceSubtitle);
+        playlistItemWebVttSub.setTitle("WebVTT All Selection");
+        playlistItemWebVttSub.setTracks(captionTracksVtt);
+
+        subOutVTT.add(playlistItemWebVttSub);
 
         subListVtt.add(subOutVTT);
         listChild.put(listHeader.get(8), subListVtt);

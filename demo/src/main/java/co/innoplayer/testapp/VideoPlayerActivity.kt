@@ -4,18 +4,27 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import co.innoplayer.InnoPlayer
 import co.innoplayer.analytics.AnalyticsListener
 import co.innoplayer.configuration.PlayerConfig
-import co.innoplayer.events.DisplayClickEvent
-import co.innoplayer.events.ErrorEvent
-import co.innoplayer.events.SeekEvent
+import co.innoplayer.events.*
 import co.innoplayer.events.listeners.VideoPlayerEvents
 import co.innoplayer.ima.utils.MediaSourceAdsUtils
+import co.innoplayer.media.ads.AdBreak
+import co.innoplayer.media.ads.ImaAdvertising
+import co.innoplayer.media.captions.Caption
+import co.innoplayer.media.captions.CaptionType
+import co.innoplayer.media.captions.MimeTypeSubtitle
 import co.innoplayer.media.playlists.PlaylistItem
+import co.innoplayer.player.PlaybackLocation
+import co.innoplayer.source.Allocator
+import co.innoplayer.source.LoadControl
 import co.innoplayer.testapp.databinding.ActivityVideoPlayerBinding
 import co.innoplayer.testapp.databinding.CastContextErrorBinding
 import com.google.android.gms.cast.framework.CastButtonFactory
@@ -35,6 +44,7 @@ class VideoPlayerActivity : AppCompatActivity() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     lateinit var binding: ActivityVideoPlayerBinding
     lateinit var bindingCastContextError: CastContextErrorBinding
+    private var innoPlayer: InnoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,131 +70,170 @@ class VideoPlayerActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
 
-        with(binding) {
-            innoPlayerView.addOnFullscreenListener(object : VideoPlayerEvents.OnFullscreenListener {
-                override fun onFullscreen(isFullscreen: Boolean) {
-                    Log.e(TAG, "isFullscreenMode: $isFullscreen")
-                    requestedOrientation = if (isFullscreen) {
-                        supportActionBar?.hide()
-                        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                    } else {
-                        supportActionBar?.show()
-                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        if (CastContext.getSharedInstance()?.sessionManager?.currentCastSession != null &&
+            CastContext.getSharedInstance()?.sessionManager?.currentCastSession?.isConnected != false
+        ) {
+            binding.innoPlayerView.updatePlaybackLocation(PlaybackLocation.REMOTE)
+        } else {
+            binding.innoPlayerView.updatePlaybackLocation(PlaybackLocation.LOCAL)
+        }
+
+        binding.apply {
+            innoPlayer = this.innoPlayerView.getPlayer()
+//            innoPlayer?.registerActivityForPip(this@VideoPlayerActivity)
+
+            innoPlayer?.addListener(
+                EventType.LEVELS_CHANGED,
+                object : EventListener.VideoPlayerEvents.OnLevelsChangedListener {
+                    override fun onLevelsChanged(levelsChangedEvent: LevelsChangedEvent) {
+                        Log.e(TAG, "onLevelsChanged: ${levelsChangedEvent.currentQuality}")
                     }
-                }
-            })
 
-            innoPlayerView.addOnErrorListener(object : VideoPlayerEvents.OnErrorListener {
-                override fun onError(error: ErrorEvent?) {
-                    Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
-                }
-            })
+                })
 
-            innoPlayerView.addOnBufferChangeListener(object :
-                VideoPlayerEvents.OnBufferChangeListener {
-                override fun onBufferChange(isLoading: Boolean) {
-                    Log.e(TAG, "onBuffer change: $isLoading")
-                }
-
-            })
-
-            innoPlayerView.addOnDisplayClickListener(object :
-                VideoPlayerEvents.OnDisplayClickListener {
-                override fun onDisplayClick(event: DisplayClickEvent) {
-                    Log.e(TAG, "isDisplayClicked")
-                }
-            })
-
-            innoPlayerView.addOnPlayerStateEndListener(object :
-                VideoPlayerEvents.OnPlayerStateEndListener {
-                override fun onPlayerStateEnd(playWhenReady: Boolean) {
-                    Log.e(TAG, "playerStateEnd: $playWhenReady")
-                }
-            })
-
-            innoPlayerView.addOnTracksChangeListener(object :
-                VideoPlayerEvents.TracksChangeListener {
-                override fun onTracksChange() {
-                    //add logic to do when tracks media has changed
-                    //example for check player has next media to play or not by calling playerHasNext() function
-                    Log.e(TAG, "trackHasChanged")
-                }
-            })
-
-            innoPlayerView.addOnSeekListener(object : VideoPlayerEvents.OnSeekListener {
-                override fun onSeek(seekEvent: SeekEvent) {
-                    Log.e(TAG, "Scrub controller at ${seekEvent.position}")
-                }
-            })
-
-            innoPlayerView.setAnalyticsListener(object : AnalyticsListener {
-                override fun onAudioUnderrun(
-                    eventTime: AnalyticsListener.EventTime,
-                    bufferSize: Int,
-                    bufferSizeMs: Long,
-                    elapsedSinceLastFeedMs: Long
-                ) {
-                    super.onAudioUnderrun(
-                        eventTime,
-                        bufferSize,
-                        bufferSizeMs,
-                        elapsedSinceLastFeedMs
-                    )
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
-                override fun onBandwidthEstimate(
-                    eventTime: AnalyticsListener.EventTime,
-                    totalLoadTimeMs: Int,
-                    totalBytesLoaded: Long,
-                    bitrateEstimate: Long
-                ) {
-                    super.onBandwidthEstimate(
-                        eventTime,
-                        totalLoadTimeMs,
-                        totalBytesLoaded,
-                        bitrateEstimate
-                    )
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
-                override fun onSeekStarted(eventTime: AnalyticsListener.EventTime) {
-                    super.onSeekStarted(eventTime)
-                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
-                        param(FirebaseAnalytics.Param.ITEM_ID, eventTime.windowIndex.toLong())
-                        param(FirebaseAnalytics.Param.ITEM_NAME, "SeekStarted")
-                        param(FirebaseAnalytics.Param.CONTENT_TYPE, "PlayerControl")
-                        param(FirebaseAnalytics.Param.VALUE, eventTime.currentPlaybackPositionMs)
+            innoPlayer?.addListener(
+                EventType.ERROR,
+                object : EventListener.VideoPlayerEvents.OnErrorListener {
+                    override fun onError(error: ErrorEvent?) {
+                        Log.e(TAG, "isPlayerErrorMsg: ${error?.message}")
                     }
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                })
+
+            innoPlayer?.addListener(
+                EventType.ERROR,
+                object : EventListener.VideoPlayerEvents.OnWarningListener {
+                    override fun onWarning(warningEvent: WarningEvent) {
+                        Log.e(TAG, "isPlayerWarningMsg: ${warningEvent.message}")
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.SETUP,
+                object : EventListener.VideoPlayerEvents.OnSetupListener {
+                    override fun onSetup() {
+//                    innoPlayer?.setFullscreen(state = true, allowRotation = true)
+                        Log.e(TAG, "onSetupClient LISTENER")
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.FULLSCREEN,
+                object : EventListener.VideoPlayerEvents.OnFullscreenListener {
+                    override fun onFullscreen(isFullscreen: Boolean) {
+                        Log.e(TAG, "isFullscreenMode: $isFullscreen")
+                        if (isFullscreen) {
+                            supportActionBar?.hide()
+                        } else {
+                            supportActionBar?.show()
+                        }
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.ERROR,
+                object : EventListener.VideoPlayerEvents.OnBufferChangeListener {
+                    override fun onBufferChange(isLoading: Boolean) {
+                        Log.e(TAG, "isPlayerLoading: $isLoading")
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.DISPLAY_CLICK,
+                object : EventListener.VideoPlayerEvents.OnDisplayClickListener {
+                    override fun onDisplayClick(event: DisplayClickEvent) {
+                        Log.e(TAG, "isDisplayClicked")
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.STATE_END,
+                object : EventListener.VideoPlayerEvents.OnPlayerStateEndListener {
+                    override fun onPlayerStateEnd(playWhenReady: Boolean) {
+                        Log.e(TAG, "playerStateEnd: $playWhenReady")
+                        innoPlayer?.pause()
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.COMPLETE,
+                object : EventListener.VideoPlayerEvents.OnCompleteListener {
+                    override fun onComplete(completeEvent: CompleteEvent) {
+                        Log.e(TAG, "onComplete: $completeEvent")
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.TRACK_CHANGED,
+                object : EventListener.VideoPlayerEvents.TracksInfoChangedListener {
+                    override fun onTracksInfoChanged() {
+                        //add logic to do when tracks media has changed
+                        //example for check player has next media to play or not by calling playerHasNext() function
+                        Log.e(TAG, "trackHasChanged")
+                        Log.e(TAG, "hasPrev: " + innoPlayerView.playerHasPrevious())
+                        Log.e(TAG, "hasNext: " + innoPlayerView.isPlayerHasNext())
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.SEEKED,
+                object : EventListener.VideoPlayerEvents.OnSeekedListener {
+                    override fun onSeeked(seekedEvent: SeekedEvent) {
+                        Log.e(TAG, "onSeeked at ${seekedEvent.position}")
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.PLAY,
+                object : EventListener.VideoPlayerEvents.OnPlayListener {
+                    override fun onPlay(playEvent: PlayEvent) {
+                        Log.e(TAG, "onPlayListener: " + playEvent.oldState.state.toString())
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.PAUSE,
+                object : EventListener.VideoPlayerEvents.OnPauseListener {
+                    override fun onPause(pauseEvent: PauseEvent) {
+                        Log.e("VideoPlayer", "state: " + pauseEvent.oldState.state.toString())
+                    }
+                })
+
+            innoPlayer?.addListener(
+                EventType.SEEK,
+                object : EventListener.VideoPlayerEvents.OnSeekListener {
+                    override fun onSeek(seekEvent: SeekEvent) {
+                        Log.e(TAG, "onSeek at ${seekEvent.position} to ${seekEvent.offset}")
+                    }
+                })
+
+            innoPlayer?.setAnalyticsListener(object : AnalyticsListener {
+
+
+                override fun onPlayerError(
+                    eventTime: AnalyticsListener.EventTime,
+                    error: InnoPlaybackException
+                ) {
+                    Log.e(TAG, "eventTime: ${eventTime.currentPlaybackPositionMs}")
+                    Log.e(TAG, "playerError: " + error.message)
                 }
 
-                override fun onTracksChanged(
+                override fun onVideoSizeChanged(
                     eventTime: AnalyticsListener.EventTime,
-                    trackGroups: co.innoplayer.source.TrackGroupArray
+                    width: Int,
+                    height: Int,
+                    unappliedRotationDegrees: Int,
+                    pixelWidthHeightRatio: Float
                 ) {
-                    super.onTracksChanged(eventTime, trackGroups)
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                    Log.e(TAG, "eventTime: ${eventTime.currentPlaybackPositionMs}")
+                    Log.e(TAG, "playerchangeSize: $width")
+                    Log.e(TAG, "playerchangeSize: $height")
                 }
 
-                override fun onShuffleModeChanged(
-                    eventTime: AnalyticsListener.EventTime,
-                    shuffleModeEnabled: Boolean
-                ) {
-                    super.onShuffleModeChanged(eventTime, shuffleModeEnabled)
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
-                }
-
-                override fun onAudioAttributesChanged(
-                    eventTime: AnalyticsListener.EventTime,
-                    audioAttributes: co.innoplayer.audio.AudioAttributes
-                ) {
-                    super.onAudioAttributesChanged(eventTime, audioAttributes)
-                    Log.e(TAG, "currenttime: ${eventTime.currentPlaybackPositionMs}")
+                override fun onDrmKeysLoaded(eventTime: AnalyticsListener.EventTime) {
+                    Log.e(TAG, "eventTime: ${eventTime.currentPlaybackPositionMs}")
                 }
             })
         }
-
 
         initVideo()
     }
@@ -197,31 +246,102 @@ class VideoPlayerActivity : AppCompatActivity() {
     }
 
     private fun initVideo() {
+        val captionTracks = mutableListOf<Caption>()
+        val captionEn = Caption.Builder()
+            .setFile("https://innoplayer.co/cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
+            .setLanguage("en")
+            .setLabel("English")
+            .setKind(CaptionType.CAPTIONS)
+            .setMimeType(MimeTypeSubtitle.TTML.value)
+            .setDefault(true)
+            .build()
+        captionTracks.add(captionEn)
 
         val playlists = mutableListOf<PlaylistItem>()
+        val ads = mutableListOf<AdBreak>()
 
-        if (intent.extras != null)
+        if (intent.extras != null) {
             playlists.addAll(
                 intent.getSerializableExtra("playlistItems") as List<PlaylistItem>
             )
+            (intent.getSerializableExtra("ads") as? List<AdBreak>?)?.let {
+                ads.addAll(
+                    it
+                )
+            }
 
-        playerConfig = PlayerConfig(playlists)
+        }
+
+        val loadControl: LoadControl = object : LoadControl {
+            override fun onPrepared() {}
+            override fun onStopped() {}
+            override fun onReleased() {}
+            override fun getAllocator(): Allocator? {
+                return null
+            }
+
+            override fun getBackBufferDurationUs(): Long {
+                return 0
+            }
+
+
+            override fun retainBackBufferFromKeyframe(): Boolean {
+                return false
+            }
+
+            override fun shouldContinueLoading(
+                playbackPositionUs: Long,
+                bufferedDurationUs: Long,
+                playbackSpeed: Float
+            ): Boolean {
+                return false
+            }
+
+            override fun shouldStartPlayback(
+                bufferedDurationUs: Long,
+                playbackSpeed: Float,
+                rebuffering: Boolean
+            ): Boolean {
+                return false
+            }
+        }
+
+        binding.innoPlayerView.getInnoPlayerSettings()?.setLoadControl(loadControl)
+
+        val playerConfig = PlayerConfig.Builder()
+            .setPlaylist(playlists)
+            .setStretching(PlayerConfig.STRETCHING_STRETCH)
+
+        if (ads.size > 0)
+            playerConfig.setAdvertising(ImaAdvertising(ads, null))
 
 //        val mediaSourceUtils = MediaSourceUtils(this)
         val mediaSourceUtils = MediaSourceAdsUtils(this)
-        binding.innoPlayerView.setup(
-            playerConfig,
+
+        innoPlayer?.setActivityPlayer(this)
+        innoPlayer?.setup(
+            playerConfig.build(),
             this,
-            mediaSourceUtils,
-            true,
+            mediaSourceUtils
         )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            innoPlayer?.setPipOnBackground(true)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (isInPictureInPictureMode) {
+                innoPlayer?.exitPictureInPictureMode()
+            }
+        }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
 
         menuInflater.inflate(R.menu.menu_cast, menu)
-        CastButtonFactory.setUpMediaRouteButton(this, menu, R.id.media_route_menu_item)
+        menu?.let {
+            CastButtonFactory.setUpMediaRouteButton(this, it, R.id.media_route_menu_item)
+        }
 
         return true
     }
@@ -245,12 +365,6 @@ class VideoPlayerActivity : AppCompatActivity() {
         super.onStart()
         binding.innoPlayerView.onStart()
     }
-
-    override fun onStop() {
-        super.onStop()
-        binding.innoPlayerView.onStop()
-    }
-
 
     override fun onBackPressed() {
         if (!binding.innoPlayerView.onBackPressedIsExitFullscreen())

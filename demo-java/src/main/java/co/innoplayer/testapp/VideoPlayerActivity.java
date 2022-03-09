@@ -1,11 +1,11 @@
 package co.innoplayer.testapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.CastContext;
@@ -14,12 +14,11 @@ import com.google.android.gms.dynamite.DynamiteModule;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.innoplayer.InnoPlayer;
 import co.innoplayer.configuration.PlayerConfig;
 import co.innoplayer.core.utils.MediaSourceBuilder;
-import co.innoplayer.core.utils.MediaSourceUtils;
-import co.innoplayer.events.ErrorEvent;
-import co.innoplayer.events.SeekEvent;
-import co.innoplayer.events.listeners.VideoPlayerEvents;
+import co.innoplayer.events.EventListener;
+import co.innoplayer.events.EventType;
 import co.innoplayer.ima.utils.MediaSourceAdsUtils;
 import co.innoplayer.media.playlists.PlaylistItem;
 import testapp.R;
@@ -33,6 +32,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     CastContext castContext;
     PlayerConfig playerConfig;
     static String TAG = "CLIENTAPP";
+    InnoPlayer innoPlayer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +57,15 @@ public class VideoPlayerActivity extends AppCompatActivity {
         }
         setContentView(binding.getRoot());
 
-        binding.innoPlayerView.addOnErrorListener(errorEvent -> {
-            if (errorEvent != null) {
-                Log.e(TAG, "isPlayerErrorMsg: " + errorEvent.getMessage());
-            }
+        innoPlayer = binding.innoPlayerView.getPlayer();
+
+        innoPlayer.addListener(EventType.ERROR, (EventListener.VideoPlayerEvents.OnErrorListener) errorEvent -> {
+            Log.e(TAG, "isPlayerErrorMsg: " + errorEvent.getMessage());
         });
 
-        binding.innoPlayerView.addOnSeekListener(seekEvent -> Log.e(TAG, "Scrub controller at " + seekEvent.getPosition()));
+        innoPlayer.addListener(EventType.SEEKED, (EventListener.VideoPlayerEvents.OnSeekedListener) seekedEvent -> Log.e(TAG, "Scrub controller at " + seekedEvent.getPosition()));
 
-        binding.innoPlayerView.addOnFullscreenListener(b -> {
+        innoPlayer.addListener(EventType.FULLSCREEN, (EventListener.VideoPlayerEvents.OnFullscreenListener) b -> {
             if (b) {
                 getSupportActionBar().hide();
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -84,12 +84,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
         binding.innoPlayerView.onStart();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        binding.innoPlayerView.onStop();
-    }
-
     private void initVideo() {
         List<PlaylistItem> playlists = new ArrayList<>();
         if (getIntent().getExtras() != null) {
@@ -97,13 +91,14 @@ public class VideoPlayerActivity extends AppCompatActivity {
                     (List<PlaylistItem>) getIntent().getSerializableExtra("playlistItems")
             );
         }
-        playerConfig = new PlayerConfig.Builder().playlist(playlists).build();
+        playerConfig = new PlayerConfig();
+        playerConfig.setPlaylist(playlists);
+
         MediaSourceBuilder mediaSourceUtils = new MediaSourceAdsUtils(VideoPlayerActivity.this);
-        binding.innoPlayerView.setup(
+        innoPlayer.setup(
                 playerConfig,
                 this,
-                mediaSourceUtils,
-                true
+                mediaSourceUtils
         );
     }
 

@@ -12,6 +12,7 @@ import co.innoplayer.media.ads.AdType
 import co.innoplayer.media.drm.DrmLicense
 import co.innoplayer.core.repository.model.feature.Feature
 import co.innoplayer.events.InnoError
+import co.innoplayer.license.LicenseUtil
 import co.innoplayer.media.ads.AdTypeSource
 import co.innoplayer.media.captions.Caption
 import co.innoplayer.media.captions.CaptionType
@@ -38,10 +39,11 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
         binding = ActivityListChoiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        InnoPlayerSDK().init(
-            this, this,
-            "Inno Player Demo", key,
-            this
+        LicenseUtil().setLicenseKey(
+            this,
+            //prod
+//            "42ef1e0bf5d4641449ebc9a00993c8ed5bcecf588e7c64fb2322f91b95859a7d"
+        "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
         )
 
         InnoPlayerSDK().initMncAnalytics(
@@ -475,12 +477,12 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         val captionTracks = mutableListOf<Caption>()
         val captionEn = Caption.Builder()
-            .file("${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
-            .language("en")
-            .label("English")
-            .kind(CaptionType.CAPTIONS)
-            .mimeType(MimeTypeSubtitle.TTML.value)
-            .isdefault(true)
+            .setFile("${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
+            .setLanguage("en")
+            .setLabel("English")
+            .setKind(CaptionType.CAPTIONS)
+            .setMimeType(MimeTypeSubtitle.TTML.value)
+            .setDefault(true)
             .build()
         captionTracks.add(captionEn)
         captionTracks.add(

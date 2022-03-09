@@ -14,8 +14,11 @@ import com.google.android.gms.dynamite.DynamiteModule;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.innoplayer.InnoPlayer;
 import co.innoplayer.configuration.PlayerConfig;
 import co.innoplayer.core.utils.MediaSourceBuilder;
+import co.innoplayer.events.EventListener;
+import co.innoplayer.events.EventType;
 import co.innoplayer.ima.utils.MediaSourceAdsUtils;
 import co.innoplayer.media.playlists.PlaylistItem;
 import testapp.R;
@@ -29,6 +32,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
     CastContext castContext;
     PlayerConfig playerConfig;
     static String TAG = "CLIENTAPP";
+    InnoPlayer innoPlayer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +57,15 @@ public class AudioPlayerActivity extends AppCompatActivity {
         }
         setContentView(binding.getRoot());
 
-        binding.innoPlayerView.addOnErrorListener(errorEvent -> {
+        innoPlayer = binding.innoPlayerView.getPlayer();
+
+        innoPlayer.addListener(EventType.ERROR, (EventListener.VideoPlayerEvents.OnErrorListener) errorEvent -> {
             if (errorEvent != null) {
                 Log.e(TAG, "isPlayerErrorMsg: " + errorEvent.getMessage());
             }
         });
 
-        binding.innoPlayerView.addOnSeekListener(seekEvent -> Log.e(TAG, "Scrub controller at " + seekEvent.getPosition()));
+        innoPlayer.addListener(EventType.SEEKED, (EventListener.VideoPlayerEvents.OnSeekedListener) seekedEvent -> Log.e(TAG, "Scrub controller at " + seekedEvent.getPosition()));
 
         initVideo();
     }
@@ -71,13 +77,14 @@ public class AudioPlayerActivity extends AppCompatActivity {
                     (List<PlaylistItem>) getIntent().getSerializableExtra("playlistItems")
             );
         }
-        playerConfig = new PlayerConfig.Builder().playlist(playlists).build();
+        playerConfig = new PlayerConfig();
+        playerConfig.setPlaylist(playlists);
+
         MediaSourceBuilder mediaSourceUtils = new MediaSourceAdsUtils(AudioPlayerActivity.this);
-        binding.innoPlayerView.setup(
-                playerConfig,
+        innoPlayer.setup(
+                this.playerConfig,
                 this,
-                mediaSourceUtils,
-                true
+                mediaSourceUtils
         );
 
     }
@@ -119,12 +126,6 @@ public class AudioPlayerActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         binding.innoPlayerView.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        binding.innoPlayerView.onStop();
     }
 
 }

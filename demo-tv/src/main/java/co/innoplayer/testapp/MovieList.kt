@@ -413,12 +413,12 @@ object MovieList {
             }
             else -> {
                 val captionEn = Caption.Builder()
-                    .file("${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
-                    .language("en")
-                    .label("English")
-                    .kind(CaptionType.CAPTIONS)
-                    .mimeType(MimeTypeSubtitle.TTML.value)
-                    .isdefault(true)
+                    .setFile("${URL_INNO}cdn/videos/tears_of_steel/subtitle/ttml/TOS-en.ttml")
+                    .setLanguage("en")
+                    .setLabel("English")
+                    .setKind(CaptionType.CAPTIONS)
+                    .setMimeType(MimeTypeSubtitle.TTML.value)
+                    .setDefault(true)
                     .build()
                 captionTracks.add(captionEn)
                 captionTracks.add(
