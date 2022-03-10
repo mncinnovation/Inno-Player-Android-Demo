@@ -22,6 +22,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "flavor"
+    productFlavors {
+        prod {
+            dimension "flavor"
+            buildConfigField("String", "BASE_URL_INNO", "\"https://innoplayer.co/\"")
+            buildConfigField('String', "KEY_INNOPLAYER", KEY_INNOPLAYER_PROD)
+            buildConfigField('String', "KEY_MNC_ANALYTICS", KEY_MNC_ANALYTICS)
+        }
+        dev {
+            dimension "flavor"
+            buildConfigField('String', "KEY_INNOPLAYER", KEY_INNOPLAYER_DEV)
+            buildConfigField('String', "KEY_MNC_ANALYTICS", KEY_MNC_ANALYTICS)
+            buildConfigField("String", "BASE_URL_INNO", "\"https://manggung.innoplayer.co/\"")
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

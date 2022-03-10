@@ -18,7 +18,7 @@ import co.innoplayer.testapp.databinding.ActivityListChoiceBinding
 import java.io.Serializable
 
 class ListChoiceActivity : AppCompatActivity() {
-    private val URL_INNO = "https://manggung.innoplayer.co/"
+    private val URL_INNO = BuildConfig.BASE_URL_INNO
 
     lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
@@ -33,7 +33,7 @@ class ListChoiceActivity : AppCompatActivity() {
 
         LicenseUtil().setLicenseKey(
             this,
-            "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
+            BuildConfig.KEY_INNOPLAYER
 
         )
 

@@ -23,16 +23,11 @@ import java.io.Serializable
 
 class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialListener {
     val TAG = "CLIENTAPP"
-    val URL_INNO = "https://innoplayer.co/"
+    val URL_INNO = BuildConfig.BASE_URL_INNO
     lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
     private var listChild: HashMap<String, List<List<PlaylistItem>>> = HashMap()
     lateinit var binding: ActivityListChoiceBinding
-
-    //prod
-    val key = "42ef1e0bf5d4641449ebc9a00993c8ed5bcecf588e7c64fb2322f91b95859a7d"
-    //dev
-//    val key = "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +36,12 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         LicenseUtil().setLicenseKey(
             this,
-            //prod
-//            "42ef1e0bf5d4641449ebc9a00993c8ed5bcecf588e7c64fb2322f91b95859a7d"
-        "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
+            BuildConfig.KEY_INNOPLAYER
         )
 
         InnoPlayerSDK().initMncAnalytics(
             this,
-            "Fw2EgY5ZdYS9XrBkxEJMBXm3AcjB0Lq4gZuSmZUht94wXQlM",
+            BuildConfig.KEY_MNC_ANALYTICS,
             null,
             "InnoPlayerDemo"
         )

@@ -26,11 +26,11 @@ import co.innoplayer.media.captions.CaptionType;
 import co.innoplayer.media.captions.MimeTypeSubtitle;
 import co.innoplayer.media.drm.DrmLicense;
 import co.innoplayer.media.playlists.PlaylistItem;
+import testapp.BuildConfig;
 import testapp.databinding.ActivityListChoiceBinding;
 
 
 public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerSDK.KeyCheckInitialListener {
-    String key = "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888";
     final String TAG = "CLIENTAPP";
     ChoiceExpandableListAdapter listAdapter;
     List<String> listHeader = new ArrayList<>();
@@ -50,13 +50,13 @@ public class ListChoiceActivity extends AppCompatActivity implements InnoPlayerS
         InnoPlayerSDK innoPlayerSDK = new InnoPlayerSDK();
         innoPlayerSDK.init(
                 this, this,
-                "Inno Player Demo", key,
+                "Inno Player Demo", BuildConfig.KEY_INNOPLAYER,
                 this
         );
 
         innoPlayerSDK.initMncAnalytics(
                 this,
-                "Fw2EgY5ZdYS9XrBkxEJMBXm3AcjB0Lq4gZuSmZUht94wXQlM",
+                BuildConfig.KEY_MNC_ANALYTICS,
                 null,
                 "InnoPlayerDemo"
         );

@@ -55,12 +55,12 @@ class MainFragment : BrowseFragment() {
         activity.applicationContext?.let {
             LicenseUtil().setLicenseKey(
                 activity,
-                "4d685e4411536b836994ce17cc9d0ba02b7ae990ad48ec0ca43b468761ec3888"
+                BuildConfig.KEY_INNOPLAYER
             )
 
             InnoPlayerSDK().initMncAnalytics(
                 it,
-                "Fw2EgY5ZdYS9XrBkxEJMBXm3AcjB0Lq4gZuSmZUht94wXQlM",
+                BuildConfig.KEY_MNC_ANALYTICS,
                 null,
                 "InnoPlayerDemo"
             )
