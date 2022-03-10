@@ -24,10 +24,10 @@ import java.io.Serializable
 class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialListener {
     val TAG = "CLIENTAPP"
     val URL_INNO = BuildConfig.BASE_URL_INNO
-    lateinit var listAdapter: ChoiceExpandableListAdapter
+    private lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
     private var listChild: HashMap<String, List<List<PlaylistItem>>> = HashMap()
-    lateinit var binding: ActivityListChoiceBinding
+    private lateinit var binding: ActivityListChoiceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +36,12 @@ class ListChoiceActivity : AppCompatActivity(), InnoPlayerSDK.KeyCheckInitialLis
 
         LicenseUtil().setLicenseKey(
             this,
-            BuildConfig.KEY_INNOPLAYER
+            BuildConfig.KEY_INNOPLAYER //replace this key with your InnoPlayer key
         )
 
         InnoPlayerSDK().initMncAnalytics(
             this,
-            BuildConfig.KEY_MNC_ANALYTICS,
+            BuildConfig.KEY_MNC_ANALYTICS,//replace this key with your MNC analytics key
             null,
             "InnoPlayerDemo"
         )

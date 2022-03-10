@@ -28,10 +28,9 @@ import com.google.android.gms.dynamite.DynamiteModule
 
 class AudioPlayerActivity : AppCompatActivity() {
     val TAG = "CLIENTAPP"
-    lateinit var playerConfig: PlayerConfig
     private var castContext: CastContext? = null
-    lateinit var binding: ActivityAudioPlayerBinding
-    lateinit var bindingCastContextError: CastContextErrorBinding
+    private lateinit var binding: ActivityAudioPlayerBinding
+    private lateinit var bindingCastContextError: CastContextErrorBinding
     private var innoPlayer: InnoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

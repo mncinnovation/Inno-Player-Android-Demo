@@ -35,7 +35,7 @@ class VideoPlayerActivity : AppCompatActivity() {
     private var handlers: Handler? = null
 
     private lateinit var binding: ActivityVideoPlayerBinding
-    lateinit var bindingCustomController: ClientinnoplayercustomControlBinding
+    private lateinit var bindingCustomController: ClientinnoplayercustomControlBinding
     private var innoPlayer: InnoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

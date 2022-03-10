@@ -2,7 +2,6 @@ package co.innoplayer.testapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,12 +26,12 @@ import testapp.databinding.CastContextErrorBinding;
 
 public class AudioPlayerActivity extends AppCompatActivity {
 
-    ActivityAudioPlayerBinding binding;
-    CastContextErrorBinding castContextErrorBinding;
-    CastContext castContext;
-    PlayerConfig playerConfig;
+    private ActivityAudioPlayerBinding binding;
+    private CastContextErrorBinding castContextErrorBinding;
+    private CastContext castContext;
+    private PlayerConfig playerConfig;
     static String TAG = "CLIENTAPP";
-    InnoPlayer innoPlayer = null;
+    private InnoPlayer innoPlayer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

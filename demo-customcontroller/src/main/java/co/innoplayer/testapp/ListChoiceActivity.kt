@@ -20,7 +20,7 @@ import java.io.Serializable
 class ListChoiceActivity : AppCompatActivity() {
     private val URL_INNO = BuildConfig.BASE_URL_INNO
 
-    lateinit var listAdapter: ChoiceExpandableListAdapter
+    private lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
     private var listChild: HashMap<String, List<List<PlaylistItem>>> = HashMap()
 

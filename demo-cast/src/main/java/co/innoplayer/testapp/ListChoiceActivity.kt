@@ -20,7 +20,7 @@ import java.io.Serializable
 class ListChoiceActivity : AppCompatActivity() {
     private val URL_INNO = BuildConfig.BASE_URL_INNO
 
-    lateinit var listAdapter: ChoiceExpandableListAdapter
+    private lateinit var listAdapter: ChoiceExpandableListAdapter
     private var listHeader = mutableListOf<String>()
     private var listChild: HashMap<String, List<List<PlaylistItem>>> = HashMap()
 
@@ -31,7 +31,10 @@ class ListChoiceActivity : AppCompatActivity() {
         binding = ActivityListChoiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        LicenseUtil().setLicenseKey(this, BuildConfig.KEY_INNOPLAYER)
+        LicenseUtil().setLicenseKey(
+            this,
+            BuildConfig.KEY_INNOPLAYER//replace this key with your InnoPlayer key
+        )
 
         prepareListData()
         listAdapter = ChoiceExpandableListAdapter(this, listHeader, listChild)

@@ -73,7 +73,6 @@ class VideoPlayerActivity : AppCompatActivity() {
 
         binding.apply {
             innoPlayer = this.innoPlayerView.getPlayer()
-//            innoPlayer?.registerActivityForPip(this@VideoPlayerActivity)
 
             innoPlayer?.addListener(
                 EventType.LEVELS_CHANGED,
@@ -104,7 +103,6 @@ class VideoPlayerActivity : AppCompatActivity() {
                 EventType.SETUP,
                 object : EventListener.VideoPlayerEvents.OnSetupListener {
                     override fun onSetup() {
-//                    innoPlayer?.setFullscreen(state = true, allowRotation = true)
                     }
                 })
 
