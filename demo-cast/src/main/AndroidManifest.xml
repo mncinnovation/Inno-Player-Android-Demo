@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".VideoPlayerActivity" />
         <activity android:name=".AudioPlayerActivity" />
-        <activity android:name=".ExpandedCastControlerActivity" />
+        <activity android:name=".ExpandedCastControlerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

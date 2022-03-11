@@ -6,7 +6,7 @@ buildscript {
     ext.exo_version='2.15.1'
     ext.glideVersion = '4.12.0'
     ext.google_cast_version = '21.0.1'
-    ext.innoplayer_version = '0.6.3-SNAPSHOT'
+    ext.innoplayer_version = '0.6.4-SNAPSHOT'
 
     repositories {
         google()
